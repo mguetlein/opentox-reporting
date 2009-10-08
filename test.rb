@@ -2,6 +2,44 @@ load "environment.rb"
 
 require 'test/unit'
 
+class Reports::ReportServiceTest < Test::Unit::TestCase
+  
+  def test_service
+    
+    rep = Reports::ReportService.new
+    
+    types = rep.get_report_types
+    assert types.is_a?(String)
+    assert types.split("\n").size == Reports::ReportFactory::REPORT_TYPES.size
+    
+    Reports::ReportFactory::REPORT_TYPES.each{|t| rep.get_all_reports(t)}
+    assert_raise(Reports::NotFound){rep.get_all_reports("osterhase")}
+    
+    assert_raise(Reports::BadRequest){report_uri = rep.create_report("validation", ["validation_uri_1","validation_uri_2"])}
+    report_uri = rep.create_report("validation", ["validation_uri_1"])
+    type = rep.parse_type(report_uri)
+    id = rep.parse_id(report_uri)
+    assert_raise(Reports::BadRequest){rep.get_report(type, id, "weihnachtsmann")}
+    rep.get_report(type, id, "html")
+    assert_raise(Reports::NotFound){rep.delete_report(type, 877658)}
+    rep.delete_report(type, id)
+    
+    OT_ACCESS.reset
+    report_uri = rep.create_report("crossvalidation", ["validation_uri_1","validation_uri_2", "validation_uri_3", "validation_uri_4", "validation_uri_5"])
+    type = rep.parse_type(report_uri)
+    id = rep.parse_id(report_uri)
+    rep.delete_report(type, id)
+    
+    OT_ACCESS.reset
+    report_uri = rep.create_report("algorithm_comparison", ["validation_uri"] * (Reports::OTMockLayer::NUM_DATASETS * Reports::OTMockLayer::NUM_ALGS * Reports::OTMockLayer::NUM_FOLDS))
+    type = rep.parse_type(report_uri)
+    id = rep.parse_id(report_uri)
+    rep.delete_report(type, id)
+  end
+
+end
+
+
 class Reports::XMLReportTest < Test::Unit::TestCase
   
   def test_all

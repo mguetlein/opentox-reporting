@@ -35,7 +35,7 @@ class Reports::ReportFactory
   private
   def self.create_report_validation(validation_set)
     
-    raise "num validations is not equal to 1" unless validation_set.size==1
+    raise Reports::BadRequest.new("num validations is not equal to 1") unless validation_set.size==1
 
     report = Reports::ReportContent.new("Validation report")
     report.add_section_result(validation_set, VAL_ATTR_TRAIN_TEST + VAL_ATTR_CLASS, "Results", "Results")
@@ -48,12 +48,12 @@ class Reports::ReportFactory
   
   def self.create_report_crossvalidation(validation_set)
     
-    raise "num validations is not >1" unless validation_set.size>1
-    raise "crossvalidation-id not set in all validations" if validation_set.has_nil_values?(:cv_id)
-    raise "num different cross-validation-id's must be equal to 1" unless validation_set.num_different_values(:cv_id)==1
+    raise Reports::BadRequest.new("num validations is not >1") unless validation_set.size>1
+    raise Reports::BadRequest.new("crossvalidation-id not set in all validations") if validation_set.has_nil_values?(:cv_id)
+    raise Reports::BadRequest.new("num different cross-validation-id's must be equal to 1") unless validation_set.num_different_values(:cv_id)==1
     validation_set.load_cv_attributes
-    raise "num validations is not equal to num folds" unless validation_set.first.CV_num_folds==validation_set.size
-    raise "num different folds is not equal to num validations" unless validation_set.num_different_values(:fold)==validation_set.size
+    raise Reports::BadRequest.new("num validations is not equal to num folds") unless validation_set.first.CV_num_folds==validation_set.size
+    raise Reports::BadRequest.new("num different folds is not equal to num validations") unless validation_set.num_different_values(:fold)==validation_set.size
     merged = validation_set.merge([:cv_id])
      
     report = Reports::ReportContent.new("Crossvalidation report")
@@ -69,17 +69,17 @@ class Reports::ReportFactory
   def self.create_report_compare_algorithms(validation_set)
     
     #validation_set.to_array([:fold, :test_dataset_uri, :model_uri]).each{|a| puts a.inspect}
-    raise "num validations is not >1" unless validation_set.size>1
+    raise Reports::BadRequest.new("num validations is not >1") unless validation_set.size>1
 
     if validation_set.has_nil_values?(:cv_id)
-      raise "so far, algorithm comparison is only supported for crossvalidation results"
+      raise Reports::BadRequest.new("so far, algorithm comparison is only supported for crossvalidation results")
     else
-      raise "num different cross-validation-ids <2" if validation_set.num_different_values(:cv_id)<2
+      raise Reports::BadRequest.new("num different cross-validation-ids <2") if validation_set.num_different_values(:cv_id)<2
       validation_set.load_cv_attributes
-      raise "number of different algorithms <2" if validation_set.num_different_values(:CV_algorithm_uri)<2
+      raise Reports::BadRequest.new("number of different algorithms <2") if validation_set.num_different_values(:CV_algorithm_uri)<2
       
       if validation_set.num_different_values(:CV_dataset_uri)>1
-        raise "so far, algorithm comparison is only supported for 1 dataset"
+        raise Reports::BadRequest.new("so far, algorithm comparison is only supported for 1 dataset")
       else
         # this groups all validations in x different groups (arrays) according to there algorithm-uri
         algorithm_grouping = Reports::Util.group(validation_set.validations, ["CV_algorithm_uri"])

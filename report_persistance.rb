@@ -45,6 +45,11 @@ class Reports::ReportPersistance
     raise "not implemented"
   end
   
+  # raises exception if not valid id format
+  def check_report_id_format(id)
+    raise "not implemented"
+  end
+  
 end
 
 # = Reports::FileReportPersistance
@@ -120,6 +125,10 @@ class Reports::FileReportPersistance < Reports::ReportPersistance
     FileUtils.rmdir report_dir
     raise "could not delete report directory '"+report_dir+"'" if File.directory?(report_dir)
     return true
+  end
+  
+  def check_report_id_format(id)
+    raise "not valid report id format" unless id.to_s =~ /[0-9]+/
   end
   
   private

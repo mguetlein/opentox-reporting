@@ -51,6 +51,10 @@ class Reports::OTMockLayer < Reports::OTAccess
     @count = 0
   end
   
+  def reset
+    @count = 0
+  end
+  
   def init_validation(validation, uri)
     
     validation.model_uri = @algs[@count]

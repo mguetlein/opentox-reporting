@@ -41,29 +41,15 @@ class Reports::ReportService
     
     # step1: load validations
     validation_set = Reports::ValidationSet.new(uri_list)
-    if validation_set==nil or validation_set.size < 1
-      err = "no validations found"
-      LOGGER.error(err)
-      raise BadRequest.new(err.to_s)
-    end
+    raise Reports::BadRequest.new("no validations found") unless validation_set and validation_set.size > 0
     LOGGER.debug "loaded "+validation_set.size.to_s+" validation/s"
     
     #step 2: create report of type
     report_content = Reports::ReportFactory.create_report(type, validation_set)
-    if report_content==nil or report_content.xml_report==nil
-      err = "could not create report"
-      LOGGER.error(err)
-      raise err #runtime exception ~= internal error
-    end
     LOGGER.debug "report created"
     
     #step 3: persist report if creation not failed
     id = REPORT_PERSISTANCE.new_report(report_content, type)
-    if id == nil
-      err = "could not persist report"
-      LOGGER.error(err)
-      raise err #runtime exception ~= internal error
-    end
     LOGGER.debug "report persisted with id: '"+id.to_s+"'"
     
     return get_uri(type, id)
@@ -79,11 +65,8 @@ class Reports::ReportService
     LOGGER.info "get report '"+id.to_s+"' of type '"+type.to_s+"' (format: '"+format+"')"
     
     format.upcase!
-    if Reports::ReportFormat::REPORT_FORMATS.index(format) == nil
-      err = "report format not supported '"+format.to_s+"', supported formats are "+ReportFormat.get_report_formats.inspect
-      LOGGER.error(err)
-      raise BadRequest.new(err)
-    end
+    raise Reports::BadRequest.new("report format not supported '"+format.to_s+"', supported formats are "+
+      Reports::ReportFormat::REPORT_FORMATS.inspect) unless Reports::ReportFormat::REPORT_FORMATS.index(format)
     
     result = REPORT_PERSISTANCE.get_report(type, id, format)
     raise_not_found( type, id ) unless result
@@ -96,6 +79,22 @@ class Reports::ReportService
     raise_not_found( type, id) unless REPORT_PERSISTANCE.delete_report(type, id)
   end
   
+  def parse_type( report_uri )
+    
+    raise "invalid uri" unless report_uri.to_s =~/^#{get_base_uri}.*/
+    type = report_uri.squeeze("/").split("/")[-2]
+    check_report_type(type)
+    return type
+  end
+  
+  def parse_id( report_uri )
+    
+    raise "invalid uri" unless report_uri.to_s =~/^#{get_base_uri}.*/
+    id = report_uri.squeeze("/").split("/")[-1]
+    REPORT_PERSISTANCE.check_report_id_format(id)
+    return id
+  end
+  
   protected
   def get_base_uri
     #PENDING replace with get uri method
@@ -103,9 +102,7 @@ class Reports::ReportService
   end
   
   def raise_not_found(type, id)
-    err = "report not found, type:'"+type.to_s+"', id:'"+id.to_s+"'"
-    LOGGER.error(err)
-    raise NotFound.new(err)
+    raise Reports::NotFound.new("report not found, type:'"+type.to_s+"', id:'"+id.to_s+"'")
   end
   
   def get_uri(type, id=nil)
@@ -113,25 +110,29 @@ class Reports::ReportService
   end
   
   def check_report_type(type)
-    
-    if Reports::ReportFactory::REPORT_TYPES.index(type) == nil
-      err = "report type not found '"+type.to_s+"''"
-      LOGGER.error(err)
-      raise NotFound.new(err)
-    end
+   raise Reports::NotFound.new("report type not found '"+type.to_s+"''") unless Reports::ReportFactory::REPORT_TYPES.index(type)
+  end
+  
+end
+
+class Reports::LoggedException < Exception
+  
+  def initialize(message)
+    super(message)
+    LOGGER.error(message)
   end
   
 end
 
 # corresponds to 400
 #
-class BadRequest < Exception
+class Reports::BadRequest < Reports::LoggedException
   
 end
 
 # corresponds to 404
 #
-class NotFound < Exception
+class Reports::NotFound < Reports::LoggedException
   
 end
 
