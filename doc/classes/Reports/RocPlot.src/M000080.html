@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>plot_predictions (Reports::RocPlot)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File r_plot_factory.rb, line 148</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">plot_predictions</span>(<span class="ruby-identifier">title</span>, <span class="ruby-identifier">predict_array</span>, <span class="ruby-identifier">actual_array</span>, <span class="ruby-identifier">show_single_curves</span> = <span class="ruby-keyword kw">false</span>)
+  
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">predict_array</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)) <span class="ruby-comment cmt">#multi-dim-arrays</span>
+      
+      <span class="ruby-comment cmt"># PENDING: very in-efficient</span>
+      <span class="ruby-identifier">preds</span> = <span class="ruby-value str">&quot;&quot;</span>
+      <span class="ruby-identifier">actual</span> = <span class="ruby-value str">&quot;&quot;</span>
+      (<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">predict_array</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+        <span class="ruby-constant">R</span>.<span class="ruby-identifier">assign</span> <span class="ruby-value str">&quot;prediction_values&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">i</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-identifier">predict_array</span>[<span class="ruby-identifier">i</span>]
+        <span class="ruby-identifier">preds</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">&quot;prediction_values&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">i</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;,&quot;</span>
+        <span class="ruby-constant">R</span>.<span class="ruby-identifier">assign</span> <span class="ruby-value str">&quot;actual_values&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">i</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-identifier">actual_array</span>[<span class="ruby-identifier">i</span>]
+        <span class="ruby-identifier">actual</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">&quot;actual_values&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">i</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;,&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-constant">R</span>.<span class="ruby-identifier">eval</span> <span class="ruby-value str">&quot;prediction_values &lt;- list(&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">preds</span>.<span class="ruby-identifier">chop</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;)&quot;</span>
+      <span class="ruby-constant">R</span>.<span class="ruby-identifier">eval</span> <span class="ruby-value str">&quot;actual_values &lt;- list(&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">actual</span>.<span class="ruby-identifier">chop</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;)&quot;</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-constant">R</span>.<span class="ruby-identifier">assign</span> <span class="ruby-value str">&quot;prediction_values&quot;</span>, <span class="ruby-identifier">predict_array</span>
+      <span class="ruby-constant">R</span>.<span class="ruby-identifier">assign</span> <span class="ruby-value str">&quot;actual_values&quot;</span>, <span class="ruby-identifier">actual_array</span>
+    <span class="ruby-keyword kw">end</span>
+    
+    <span class="ruby-constant">R</span>.<span class="ruby-identifier">eval</span> <span class="ruby-value str">&quot;pred &lt;- prediction(prediction_values,actual_values)&quot;</span>
+    <span class="ruby-constant">R</span>.<span class="ruby-identifier">eval</span> <span class="ruby-value str">'perf &lt;- performance(pred,&quot;tpr&quot;,&quot;fpr&quot;)'</span>
+    
+    <span class="ruby-identifier">add_plot</span> = <span class="ruby-ivar">@titles</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> <span class="ruby-value str">&quot;add=TRUE&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-value str">&quot;add=FALSE&quot;</span> 
+    <span class="ruby-identifier">avg</span> = <span class="ruby-identifier">predict_array</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">?</span> <span class="ruby-value str">'avg=&quot;threshold&quot;,'</span> <span class="ruby-operator">:</span> <span class="ruby-value str">''</span> 
+    <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;not enough colors defined&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@titles</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;=</span>  <span class="ruby-constant">R_PLOT_COLORS</span>.<span class="ruby-identifier">size</span>
+    <span class="ruby-constant">R</span>.<span class="ruby-identifier">eval</span> <span class="ruby-value str">'plot(perf, '</span><span class="ruby-operator">+</span><span class="ruby-identifier">avg</span><span class="ruby-operator">+</span><span class="ruby-value str">' col=&quot;'</span><span class="ruby-operator">+</span><span class="ruby-constant">R_PLOT_COLORS</span>[<span class="ruby-ivar">@titles</span>.<span class="ruby-identifier">size</span>]<span class="ruby-operator">+</span><span class="ruby-value str">'&quot;, '</span><span class="ruby-operator">+</span><span class="ruby-identifier">add_plot</span><span class="ruby-operator">+</span><span class="ruby-value str">')'</span>
+    <span class="ruby-constant">R</span>.<span class="ruby-identifier">eval</span> <span class="ruby-value str">'plot(perf, ,col=&quot;grey82&quot;, add=TRUE)'</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">show_single_curves</span>
+    <span class="ruby-ivar">@titles</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">title</span>)
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

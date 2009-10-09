@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>demo_roc_plot (Reports::RPlotFactory)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File r_plot_factory.rb, line 46</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">demo_roc_plot</span>(<span class="ruby-identifier">file</span> = <span class="ruby-keyword kw">nil</span>)
+    <span class="ruby-identifier">r</span> = <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">RocPlot</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">file</span>)
+    <span class="ruby-identifier">r</span>.<span class="ruby-identifier">plot_predictions</span>(<span class="ruby-value str">&quot;Test1&quot;</span>,[<span class="ruby-value">0</span><span class="ruby-value">.612547843</span>, <span class="ruby-value">0</span><span class="ruby-value">.364270971</span>, <span class="ruby-value">0</span><span class="ruby-value">.432136142</span>, <span class="ruby-value">0</span><span class="ruby-value">.140291078</span>, <span class="ruby-value">0</span><span class="ruby-value">.384895941</span>, <span class="ruby-value">0</span><span class="ruby-value">.244415489</span>],[<span class="ruby-value">1</span>, <span class="ruby-value">1</span>, <span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-value">1</span>])
+    <span class="ruby-identifier">r</span>.<span class="ruby-identifier">plot_predictions</span>(<span class="ruby-value str">&quot;Test2&quot;</span>,[<span class="ruby-value">0</span><span class="ruby-value">.612547843</span>, <span class="ruby-value">0</span><span class="ruby-value">.364270971</span>, <span class="ruby-value">0</span><span class="ruby-value">.432136142</span>, <span class="ruby-value">0</span><span class="ruby-value">.140291078</span>, <span class="ruby-value">0</span><span class="ruby-value">.384895941</span>, <span class="ruby-value">0</span><span class="ruby-value">.244415489</span>],[<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-value">1</span>, <span class="ruby-value">0</span>, <span class="ruby-value">1</span>, <span class="ruby-value">1</span>])
+    <span class="ruby-identifier">r</span>.<span class="ruby-identifier">add_legend</span>
+    <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">file</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;press ENTER to end program&quot;</span>
+      <span class="ruby-identifier">gets</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;program ended&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

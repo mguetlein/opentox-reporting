@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>generate_demo_xml_report (XMLReport)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File xml_report.rb, line 156</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">generate_demo_xml_report</span>
+
+    <span class="ruby-identifier">rep</span> = <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">XMLReport</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;Demo report&quot;</span>, <span class="ruby-value str">&quot;Fistname&quot;</span>, <span class="ruby-value str">&quot;Surname&quot;</span>)
+    <span class="ruby-identifier">section1</span> = <span class="ruby-identifier">rep</span>.<span class="ruby-identifier">add_section</span>(<span class="ruby-identifier">rep</span>.<span class="ruby-identifier">get_root_element</span>, <span class="ruby-value str">&quot;First Section&quot;</span>)
+    <span class="ruby-identifier">rep</span>.<span class="ruby-identifier">add_paragraph</span>(<span class="ruby-identifier">section1</span>, <span class="ruby-value str">&quot;some text&quot;</span>)
+    <span class="ruby-identifier">rep</span>.<span class="ruby-identifier">add_paragraph</span>(<span class="ruby-identifier">section1</span>, <span class="ruby-value str">&quot;even more text&quot;</span>)
+    <span class="ruby-identifier">rep</span>.<span class="ruby-identifier">add_imagefigure</span>(<span class="ruby-identifier">section1</span>, <span class="ruby-value str">&quot;Figure&quot;</span>, <span class="ruby-value str">&quot;http://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Siegel_der_Albert-Ludwigs-Universit%C3%A4t_Freiburg.svg/354px-Siegel_der_Albert-Ludwigs-Universit%C3%A4t_Freiburg.svg&quot;</span>, <span class="ruby-value str">&quot;SVG&quot;</span>, <span class="ruby-value str">&quot;this is the logo of freiburg university&quot;</span>)
+    <span class="ruby-identifier">section2</span> = <span class="ruby-identifier">rep</span>.<span class="ruby-identifier">add_section</span>(<span class="ruby-identifier">rep</span>.<span class="ruby-identifier">get_root_element</span>,<span class="ruby-value str">&quot;Second Section&quot;</span>)
+    <span class="ruby-identifier">rep</span>.<span class="ruby-identifier">add_section</span>(<span class="ruby-identifier">section2</span>,<span class="ruby-value str">&quot;A Subsection&quot;</span>)
+    <span class="ruby-identifier">rep</span>.<span class="ruby-identifier">add_section</span>(<span class="ruby-identifier">section2</span>,<span class="ruby-value str">&quot;Another Subsection&quot;</span>)
+    <span class="ruby-identifier">rep</span>.<span class="ruby-identifier">add_section</span>(<span class="ruby-identifier">rep</span>.<span class="ruby-identifier">get_root_element</span>,<span class="ruby-value str">&quot;Third Section&quot;</span>)
+    
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">rep</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,127 @@
+
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+
+    Methods
+
+  -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Methods</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="rdoc-style.css" type="text/css" />
+  <base target="docwin" />
+</head>
+<body>
+<div id="index">
+  <h1 class="section-bar">Methods</h1>
+  <div id="index-entries">
+    <a href="classes/Reports/Predictions.html#M000099">actual_value (Reports::Predictions)</a><br />
+    <a href="classes/Reports/BarPlot.html#M000033">add_data (Reports::BarPlot)</a><br />
+    <a href="classes/XMLReport.html#M000008">add_imagefigure (XMLReport)</a><br />
+    <a href="classes/Reports/RocPlot.html#M000079">add_legend (Reports::RocPlot)</a><br />
+    <a href="classes/XMLReport.html#M000010">add_list (XMLReport)</a><br />
+    <a href="classes/XMLReport.html#M000007">add_paragraph (XMLReport)</a><br />
+    <a href="classes/XMLReport.html#M000006">add_section (XMLReport)</a><br />
+    <a href="classes/Reports/ReportContent.html#M000064">add_section_bar_plot (Reports::ReportContent)</a><br />
+    <a href="classes/Reports/ReportContent.html#M000062">add_section_confusion_matrix (Reports::ReportContent)</a><br />
+    <a href="classes/Reports/ReportContent.html#M000060">add_section_predictions (Reports::ReportContent)</a><br />
+    <a href="classes/Reports/ReportContent.html#M000061">add_section_result (Reports::ReportContent)</a><br />
+    <a href="classes/Reports/ReportContent.html#M000063">add_section_roc_plot (Reports::ReportContent)</a><br />
+    <a href="classes/XMLReport.html#M000009">add_table (XMLReport)</a><br />
+    <a href="classes/XMLReportUtil.html#M000015">attribute_element (XMLReportUtil)</a><br />
+    <a href="classes/Reports/BarPlot.html#M000034">build_plot (Reports::BarPlot)</a><br />
+    <a href="classes/Reports/Util.html#M000066">check_group_matching (Reports::Util)</a><br />
+    <a href="classes/Reports/ReportPersistance.html#M000085">check_report_id_format (Reports::ReportPersistance)</a><br />
+    <a href="classes/Reports/FileReportPersistance.html#M000095">check_report_id_format (Reports::FileReportPersistance)</a><br />
+    <a href="classes/Reports/ReportService.html#M000058">check_report_type (Reports::ReportService)</a><br />
+    <a href="classes/Reports/Predictions.html#M000101">classification_miss? (Reports::Predictions)</a><br />
+    <a href="classes/Reports/Predictions.html#M000100">compound_uri (Reports::Predictions)</a><br />
+    <a href="classes/Reports/RPlotFactory.html#M000038">create_bar_plot (Reports::RPlotFactory)</a><br />
+    <a href="classes/XMLReportUtil.html#M000013">create_confusion_matrix (XMLReportUtil)</a><br />
+    <a href="classes/Reports/ReportService.html#M000050">create_report (Reports::ReportService)</a><br />
+    <a href="classes/Reports/ReportFactory.html#M000069">create_report (Reports::ReportFactory)</a><br />
+    <a href="classes/Reports/RPlotFactory.html#M000039">create_roc_plot (Reports::RPlotFactory)</a><br />
+    <a href="classes/Reports/Util.html#M000067">create_tmp_file (Reports::Util)</a><br />
+    <a href="classes/Reports/ReportPersistance.html#M000084">delete_report (Reports::ReportPersistance)</a><br />
+    <a href="classes/Reports/ReportService.html#M000052">delete_report (Reports::ReportService)</a><br />
+    <a href="classes/Reports/FileReportPersistance.html#M000094">delete_report (Reports::FileReportPersistance)</a><br />
+    <a href="classes/Reports/RPlotFactory.html#M000041">demo_bar_plot (Reports::RPlotFactory)</a><br />
+    <a href="classes/Reports/RPlotFactory.html#M000040">demo_roc_plot (Reports::RPlotFactory)</a><br />
+    <a href="classes/Reports/ValidationSet.html#M000023">filter (Reports::ValidationSet)</a><br />
+    <a href="classes/Reports/ValidationSet.html#M000018">first (Reports::ValidationSet)</a><br />
+    <a href="classes/Reports/ReportFormat.html#M000068">format_report (Reports::ReportFormat)</a><br />
+    <a href="classes/XMLReport.html#M000012">generate_demo_xml_report (XMLReport)</a><br />
+    <a href="classes/Reports/ValidationSet.html#M000017">get (Reports::ValidationSet)</a><br />
+    <a href="classes/Reports/ReportService.html#M000049">get_all_reports (Reports::ReportService)</a><br />
+    <a href="classes/Reports/ReportService.html#M000055">get_base_uri (Reports::ReportService)</a><br />
+    <a href="classes/Reports/Validation.html#M000072">get_predictions (Reports::Validation)</a><br />
+    <a href="classes/Reports/FileReportPersistance.html#M000093">get_report (Reports::FileReportPersistance)</a><br />
+    <a href="classes/Reports/ReportPersistance.html#M000083">get_report (Reports::ReportPersistance)</a><br />
+    <a href="classes/Reports/ReportService.html#M000051">get_report (Reports::ReportService)</a><br />
+    <a href="classes/Reports/ReportService.html#M000048">get_report_types (Reports::ReportService)</a><br />
+    <a href="classes/XMLReport.html#M000005">get_root_element (XMLReport)</a><br />
+    <a href="classes/Reports/ReportService.html#M000057">get_uri (Reports::ReportService)</a><br />
+    <a href="classes/Reports/ValidationSet.html#M000019">get_values (Reports::ValidationSet)</a><br />
+    <a href="classes/Reports/Util.html#M000065">group (Reports::Util)</a><br />
+    <a href="classes/Object.html#M000001">has_equal_attributes? (Object)</a><br />
+    <a href="classes/Reports/ValidationSet.html#M000021">has_nil_values? (Reports::ValidationSet)</a><br />
+    <a href="classes/Object.html#M000003">has_values? (Object)</a><br />
+    <a href="classes/Reports/OTMockLayer.html#M000045">init_cv (Reports::OTMockLayer)</a><br />
+    <a href="classes/Reports/OTAccess.html#M000036">init_cv (Reports::OTAccess)</a><br />
+    <a href="classes/Reports/OTMockLayer.html#M000046">init_predictions (Reports::OTMockLayer)</a><br />
+    <a href="classes/Reports/OTAccess.html#M000037">init_predictions (Reports::OTAccess)</a><br />
+    <a href="classes/Reports/OTMockLayer.html#M000044">init_validation (Reports::OTMockLayer)</a><br />
+    <a href="classes/Reports/OTAccess.html#M000035">init_validation (Reports::OTAccess)</a><br />
+    <a href="classes/Reports/ReportPersistance.html#M000081">list_reports (Reports::ReportPersistance)</a><br />
+    <a href="classes/Reports/FileReportPersistance.html#M000091">list_reports (Reports::FileReportPersistance)</a><br />
+    <a href="classes/Reports/Validation.html#M000073">load_cv_attributes (Reports::Validation)</a><br />
+    <a href="classes/Reports/ValidationSet.html#M000022">load_cv_attributes (Reports::ValidationSet)</a><br />
+    <a href="classes/Reports/Validation.html#M000074">merge (Reports::Validation)</a><br />
+    <a href="classes/Reports/ValidationSet.html#M000025">merge (Reports::ValidationSet)</a><br />
+    <a href="classes/Reports/Validation.html#M000075">merge_count (Reports::Validation)</a><br />
+    <a href="classes/XMLReport.html#M000004">new (XMLReport)</a><br />
+    <a href="classes/Reports/UtilTest/Person.html#M000029">new (Reports::UtilTest::Person)</a><br />
+    <a href="classes/Reports/ValidationSet.html#M000016">new (Reports::ValidationSet)</a><br />
+    <a href="classes/Reports/Predictions.html#M000096">new (Reports::Predictions)</a><br />
+    <a href="classes/Reports/RocPlot.html#M000078">new (Reports::RocPlot)</a><br />
+    <a href="classes/Reports/LoggedException.html#M000070">new (Reports::LoggedException)</a><br />
+    <a href="classes/Reports/Validation.html#M000071">new (Reports::Validation)</a><br />
+    <a href="classes/Reports/BarPlot.html#M000032">new (Reports::BarPlot)</a><br />
+    <a href="classes/Reports/ReportContent.html#M000059">new (Reports::ReportContent)</a><br />
+    <a href="classes/Reports/OTMockLayer.html#M000042">new (Reports::OTMockLayer)</a><br />
+    <a href="classes/Reports/FileReportPersistance.html#M000090">new (Reports::FileReportPersistance)</a><br />
+    <a href="classes/Reports/RPlot.html#M000047">new (Reports::RPlot)</a><br />
+    <a href="classes/Reports/FileReportPersistance.html#M000092">new_report (Reports::FileReportPersistance)</a><br />
+    <a href="classes/Reports/ReportPersistance.html#M000082">new_report (Reports::ReportPersistance)</a><br />
+    <a href="classes/Reports/ValidationSet.html#M000020">num_different_values (Reports::ValidationSet)</a><br />
+    <a href="classes/Reports/Predictions.html#M000097">num_instances (Reports::Predictions)</a><br />
+    <a href="classes/Reports/ReportService.html#M000054">parse_id (Reports::ReportService)</a><br />
+    <a href="classes/Reports/ReportService.html#M000053">parse_type (Reports::ReportService)</a><br />
+    <a href="classes/Reports/RocPlot.html#M000080">plot_predictions (Reports::RocPlot)</a><br />
+    <a href="classes/Reports/Predictions.html#M000098">predicted_value (Reports::Predictions)</a><br />
+    <a href="classes/Reports/PredictionUtil.html#M000086">predictions_to_array (Reports::PredictionUtil)</a><br />
+    <a href="classes/Reports/ReportService.html#M000056">raise_not_found (Reports::ReportService)</a><br />
+    <a href="classes/Reports/OTMockLayer.html#M000043">reset (Reports::OTMockLayer)</a><br />
+    <a href="classes/Reports/Validation.html#M000076">set_merge_count (Reports::Validation)</a><br />
+    <a href="classes/Reports/ValidationSet.html#M000026">size (Reports::ValidationSet)</a><br />
+    <a href="classes/Reports/XMLReportTest.html#M000077">test_all (Reports::XMLReportTest)</a><br />
+    <a href="classes/Reports/RPlotTest.html#M000087">test_bar_plot (Reports::RPlotTest)</a><br />
+    <a href="classes/Reports/XMLReportUtilTest.html#M000031">test_create_matrix (Reports::XMLReportUtilTest)</a><br />
+    <a href="classes/Reports/UtilTest.html#M000028">test_grouping (Reports::UtilTest)</a><br />
+    <a href="classes/Reports/RPlotTest.html#M000088">test_roc_plot (Reports::RPlotTest)</a><br />
+    <a href="classes/Reports/ReportServiceTest.html#M000089">test_service (Reports::ReportServiceTest)</a><br />
+    <a href="classes/XMLReportUtil.html#M000014">text_element (XMLReportUtil)</a><br />
+    <a href="classes/Reports/ValidationSet.html#M000024">to_array (Reports::ValidationSet)</a><br />
+    <a href="classes/Object.html#M000002">to_nice_s (Object)</a><br />
+    <a href="classes/Reports/UtilTest/Person.html#M000030">to_s (Reports::UtilTest::Person)</a><br />
+    <a href="classes/Reports/ValidationSet.html#M000027">validations (Reports::ValidationSet)</a><br />
+    <a href="classes/XMLReport.html#M000011">write_to (XMLReport)</a><br />
+  </div>
+</div>
+</body>
+</html>

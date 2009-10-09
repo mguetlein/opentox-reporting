@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>add_table (XMLReport)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File xml_report.rb, line 91</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_table</span>( <span class="ruby-identifier">element</span>, <span class="ruby-identifier">title</span>, <span class="ruby-identifier">table_values</span>, <span class="ruby-identifier">first_row_is_table_header</span>=<span class="ruby-keyword kw">true</span> )
+    
+    <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;table_values is not mulit-dimensional-array&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">table_values</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">table_values</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">table_values</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>) 
+    
+    <span class="ruby-identifier">table</span> = <span class="ruby-constant">XMLReportUtil</span>.<span class="ruby-identifier">attribute_element</span>(<span class="ruby-value str">&quot;table&quot;</span>,{<span class="ruby-value str">&quot;frame&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;top&quot;</span>, <span class="ruby-value str">&quot;colsep&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>, <span class="ruby-value str">&quot;rowsep&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>})
+    
+    <span class="ruby-identifier">table</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">XMLReportUtil</span>.<span class="ruby-identifier">text_element</span>(<span class="ruby-value str">&quot;title&quot;</span>, <span class="ruby-identifier">title</span>)
+    
+    <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;column count 0&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">table_values</span>.<span class="ruby-identifier">at</span>(<span class="ruby-value">0</span>).<span class="ruby-identifier">size</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">1</span> 
+    
+    <span class="ruby-identifier">tgroup</span> = <span class="ruby-constant">XMLReportUtil</span>.<span class="ruby-identifier">attribute_element</span>(<span class="ruby-value str">&quot;tgroup&quot;</span>,{<span class="ruby-value str">&quot;cols&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">table_values</span>.<span class="ruby-identifier">at</span>(<span class="ruby-value">0</span>).<span class="ruby-identifier">size</span>})
+    
+    <span class="ruby-identifier">table_body_values</span> = <span class="ruby-identifier">table_values</span>
+    
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">first_row_is_table_header</span>
+      <span class="ruby-identifier">table_head_values</span> = <span class="ruby-identifier">table_values</span>[<span class="ruby-value">0</span>];
+      <span class="ruby-identifier">table_body_values</span> = <span class="ruby-identifier">table_values</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>];
+      
+      <span class="ruby-identifier">thead</span> = <span class="ruby-constant">Element</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;thead&quot;</span>)
+      <span class="ruby-identifier">row</span> = <span class="ruby-constant">Element</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;row&quot;</span>)
+      <span class="ruby-identifier">table_head_values</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">row</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">XMLReportUtil</span>.<span class="ruby-identifier">text_element</span>(<span class="ruby-value str">&quot;entry&quot;</span>, <span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_s</span>) }
+      <span class="ruby-identifier">thead</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">row</span>
+      <span class="ruby-identifier">tgroup</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">thead</span>
+    <span class="ruby-keyword kw">end</span>
+    
+    <span class="ruby-identifier">tbody</span> = <span class="ruby-constant">Element</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;tbody&quot;</span>) 
+    <span class="ruby-identifier">table_body_values</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">row</span> = <span class="ruby-constant">Element</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;row&quot;</span>)
+      <span class="ruby-identifier">r</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">row</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">XMLReportUtil</span>.<span class="ruby-identifier">text_element</span>(<span class="ruby-value str">&quot;entry&quot;</span>, <span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_s</span>) }
+      <span class="ruby-identifier">tbody</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">row</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">tgroup</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">tbody</span> 
+    
+    <span class="ruby-identifier">table</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">tgroup</span>
+    <span class="ruby-identifier">element</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">table</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">table</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

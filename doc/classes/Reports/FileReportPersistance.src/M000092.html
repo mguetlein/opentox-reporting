@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new_report (Reports::FileReportPersistance)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File report_persistance.rb, line 71</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">new_report</span>(<span class="ruby-identifier">report_content</span>, <span class="ruby-identifier">type</span>)
+    
+    <span class="ruby-constant">LOGGER</span>.<span class="ruby-identifier">debug</span> <span class="ruby-value str">&quot;storing new report of type &quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">type</span>.<span class="ruby-identifier">to_s</span> 
+    
+    <span class="ruby-identifier">type_dir</span> = <span class="ruby-identifier">type_directory</span>(<span class="ruby-identifier">type</span>)
+    <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;type dir '&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">type_dir</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;' cannot be found nor created&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">type_dir</span>)
+    
+    <span class="ruby-identifier">id</span> = <span class="ruby-value">1</span>
+    <span class="ruby-keyword kw">while</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>( <span class="ruby-identifier">type_dir</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;/&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">id</span>.<span class="ruby-identifier">to_s</span> )
+      <span class="ruby-identifier">id</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">report_dir</span> = <span class="ruby-identifier">type_dir</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;/&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">id</span>.<span class="ruby-identifier">to_s</span>
+    <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir</span>(<span class="ruby-identifier">report_dir</span>)
+    <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;report dir '&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">report_dir</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;' cannot be created&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">report_dir</span>)
+    
+    <span class="ruby-identifier">xml_filename</span> = <span class="ruby-identifier">report_dir</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;/report.XML&quot;</span>
+    <span class="ruby-identifier">xml_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">xml_filename</span>, <span class="ruby-value str">&quot;w&quot;</span>)
+    <span class="ruby-identifier">report_content</span>.<span class="ruby-identifier">xml_report</span>.<span class="ruby-identifier">write_to</span>(<span class="ruby-identifier">xml_file</span>)
+    <span class="ruby-identifier">xml_file</span>.<span class="ruby-identifier">close</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">report_content</span>.<span class="ruby-identifier">tmp_files</span>)
+      <span class="ruby-identifier">report_content</span>.<span class="ruby-identifier">tmp_files</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">tmp_filename</span> = <span class="ruby-identifier">report_dir</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;/&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">k</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;tmp-file '&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">tmp_filename</span>.<span class="ruby-identifier">to_s</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;' already exists&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">tmp_filename</span>)
+        <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;tmp-file '&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_s</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;' not found&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">v</span>)
+        <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mv</span>(<span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_s</span>,<span class="ruby-identifier">tmp_filename</span>)
+        <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;could not move tmp-file to '&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">tmp_filename</span>.<span class="ruby-identifier">to_s</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;'&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">tmp_filename</span>)
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">id</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

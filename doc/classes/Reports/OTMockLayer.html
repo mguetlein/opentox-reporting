@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Reports::OTMockLayer</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Reports::OTMockLayer</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/ot_access_rb.html">
+                ot_access.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="OTAccess.html">
+                Reports::OTAccess
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1><a href="OTMockLayer.html">Reports::OTMockLayer</a></h1>
+<p>
+does not connect to other services, provides randomly generated data
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000045">init_cv</a>&nbsp;&nbsp;
+      <a href="#M000046">init_predictions</a>&nbsp;&nbsp;
+      <a href="#M000044">init_validation</a>&nbsp;&nbsp;
+      <a href="#M000042">new</a>&nbsp;&nbsp;
+      <a href="#M000043">reset</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">NUM_DATASETS</td>
+          <td>=</td>
+          <td class="context-item-value">1</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">NUM_ALGS</td>
+          <td>=</td>
+          <td class="context-item-value">4</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">NUM_FOLDS</td>
+          <td>=</td>
+          <td class="context-item-value">5</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">NUM_PREDICTIONS</td>
+          <td>=</td>
+          <td class="context-item-value">30</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">ALGS</td>
+          <td>=</td>
+          <td class="context-item-value">[&quot;naive-bayes&quot;, &quot;c4.5&quot;, &quot;svm&quot;, &quot;knn&quot;, &quot;lazar&quot;, &quot;id3&quot;]</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">DATASETS</td>
+          <td>=</td>
+          <td class="context-item-value">[&quot;hamster&quot;, &quot;mouse&quot; , &quot;rat&quot;, &quot;dog&quot;, &quot;cat&quot;, &quot;horse&quot;, &quot;bug&quot;, &quot;ant&quot;, &quot;butterfly&quot;, &quot;rabbit&quot;, &quot;donkey&quot;, &quot;monkey&quot;, &quot;dragonfly&quot;, &quot;frog&quot;, &quot;dragon&quot;, &quot;dinosaur&quot;]</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">FOLDS</td>
+          <td>=</td>
+          <td class="context-item-value">[1,2,3,4,5,6,7,8,9,10]</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">CV_num_folds</td>
+          <td>=</td>
+          <td class="context-item-value">NUM_FOLDS</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">CV_algorithm_uri</td>
+          <td>=</td>
+          <td class="context-item-value">@algs[validation.cv_id.to_i * NUM_FOLDS]</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">CV_dataset_uri</td>
+          <td>=</td>
+          <td class="context-item-value">@datasets[validation.cv_id.to_i * NUM_FOLDS]</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">CV_stratified</td>
+          <td>=</td>
+          <td class="context-item-value">true</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">CV_random_seed</td>
+          <td>=</td>
+          <td class="context-item-value">1</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">CV_dataset_name</td>
+          <td>=</td>
+          <td class="context-item-value">@datasets[validation.cv_id.to_i * NUM_FOLDS]</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000042" class="method-detail">
+        <a name="M000042"></a>
+
+        <div class="method-heading">
+          <a href="OTMockLayer.src/M000042.html" target="Code" class="method-signature"
+            onclick="popupCode('OTMockLayer.src/M000042.html');return false;">
+          <span class="method-name">new</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000045" class="method-detail">
+        <a name="M000045"></a>
+
+        <div class="method-heading">
+          <a href="OTMockLayer.src/M000045.html" target="Code" class="method-signature"
+            onclick="popupCode('OTMockLayer.src/M000045.html');return false;">
+          <span class="method-name">init_cv</span><span class="method-args">(validation)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000046" class="method-detail">
+        <a name="M000046"></a>
+
+        <div class="method-heading">
+          <a href="OTMockLayer.src/M000046.html" target="Code" class="method-signature"
+            onclick="popupCode('OTMockLayer.src/M000046.html');return false;">
+          <span class="method-name">init_predictions</span><span class="method-args">(predictions, test_dataset_uri, prediction_dataset_uri)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000044" class="method-detail">
+        <a name="M000044"></a>
+
+        <div class="method-heading">
+          <a href="OTMockLayer.src/M000044.html" target="Code" class="method-signature"
+            onclick="popupCode('OTMockLayer.src/M000044.html');return false;">
+          <span class="method-name">init_validation</span><span class="method-args">(validation, uri)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000043" class="method-detail">
+        <a name="M000043"></a>
+
+        <div class="method-heading">
+          <a href="OTMockLayer.src/M000043.html" target="Code" class="method-signature"
+            onclick="popupCode('OTMockLayer.src/M000043.html');return false;">
+          <span class="method-name">reset</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: XMLReport</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">XMLReport</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/xml_report_rb.html">
+                xml_report.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="Object.html">
+                Object
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1><a href="XMLReport.html">XMLReport</a></h1>
+<p>
+uses REXML to generate an XML document in DocBook article format
+</p>
+<p>
+uses Env-Variable <em>XMLREPORT_DTD</em> to specifiy the dtd
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000008">add_imagefigure</a>&nbsp;&nbsp;
+      <a href="#M000010">add_list</a>&nbsp;&nbsp;
+      <a href="#M000007">add_paragraph</a>&nbsp;&nbsp;
+      <a href="#M000006">add_section</a>&nbsp;&nbsp;
+      <a href="#M000009">add_table</a>&nbsp;&nbsp;
+      <a href="#M000012">generate_demo_xml_report</a>&nbsp;&nbsp;
+      <a href="#M000005">get_root_element</a>&nbsp;&nbsp;
+      <a href="#M000004">new</a>&nbsp;&nbsp;
+      <a href="#M000011">write_to</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="XMLReport.src/M000012.html" target="Code" class="method-signature"
+            onclick="popupCode('XMLReport.src/M000012.html');return false;">
+          <span class="method-name">self.generate_demo_xml_report => Reports::XMLReport<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+          <a href="XMLReport.src/M000004.html" target="Code" class="method-signature"
+            onclick="popupCode('XMLReport.src/M000004.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(title, author_firstname = nil, author_surname = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+create <a href="XMLReport.html#M000004">new</a> xmlreport
+</p>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
+
+        <div class="method-heading">
+          <a href="XMLReport.src/M000008.html" target="Code" class="method-signature"
+            onclick="popupCode('XMLReport.src/M000008.html');return false;">
+          <span class="method-name">add_imagefigure( element, title, path, filetype, caption = nil ) => REXML::Element<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+adds a <a href="XMLReport.html#M000004">new</a> image to a REXML:Element,
+returns the figure as element
+</p>
+<p>
+example: <tt><a href="XMLReport.html#M000008">add_imagefigure</a>(
+section2, &quot;Nice graph&quot;, &quot;/images/graph1.svg&quot;,
+&quot;SVG&quot;, &quot;This graph shows&#8230;&quot; )</tt>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="XMLReport.src/M000010.html" target="Code" class="method-signature"
+            onclick="popupCode('XMLReport.src/M000010.html');return false;">
+          <span class="method-name">add_list( element, list_values ) => REXML::Element<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+adds a list to a REXML:Element, returns the list as element
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+          <a href="XMLReport.src/M000007.html" target="Code" class="method-signature"
+            onclick="popupCode('XMLReport.src/M000007.html');return false;">
+          <span class="method-name">add_paragraph( element, text ) => REXML::Element<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+adds a <a href="XMLReport.html#M000004">new</a> paragraph to a
+REXML:Element, returns the paragraph as element
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+          <a href="XMLReport.src/M000006.html" target="Code" class="method-signature"
+            onclick="popupCode('XMLReport.src/M000006.html');return false;">
+          <span class="method-name">add_section(element, title) => REXML::Element<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+adds a <a href="XMLReport.html#M000004">new</a> section to a REXML:Element,
+returns the section as element
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000009" class="method-detail">
+        <a name="M000009"></a>
+
+        <div class="method-heading">
+          <a href="XMLReport.src/M000009.html" target="Code" class="method-signature"
+            onclick="popupCode('XMLReport.src/M000009.html');return false;">
+          <span class="method-name">add_table( element, title, table_values, first_row_is_table_header=true ) => REXML::Element<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+adds a table to a REXML:Element, <em>table_values</em> should be a
+multi-dimensional-array, returns the table as element
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
+
+        <div class="method-heading">
+          <a href="XMLReport.src/M000005.html" target="Code" class="method-signature"
+            onclick="popupCode('XMLReport.src/M000005.html');return false;">
+          <span class="method-name">get_root_element => REXML::Element<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+returns the root element of the document
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="XMLReport.src/M000011.html" target="Code" class="method-signature"
+            onclick="popupCode('XMLReport.src/M000011.html');return false;">
+          <span class="method-name">write_to</span><span class="method-args">( out = $stdout )</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+writes xml document
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

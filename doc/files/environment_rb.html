@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: environment.rb</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>environment.rb</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>environment.rb
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Thu Oct 08 17:02:29 +0200 2009</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+    <div id="requires-list">
+      <h3 class="section-bar">Required files</h3>
+
+      <div class="name-list">
+      rubygems&nbsp;&nbsp;
+      rinruby&nbsp;&nbsp;
+      logger&nbsp;&nbsp;
+      rexml/document&nbsp;&nbsp;
+      fileutils&nbsp;&nbsp;
+      tempfile&nbsp;&nbsp;
+      </div>
+    </div>
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name">REXML</span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">VAL_ATTR</td>
+          <td>=</td>
+          <td class="context-item-value">[ # general validation attributes              &quot;id&quot;, &quot;name&quot;, &quot;uri&quot;, &quot;model_uri&quot;, &quot;test_dataset_uri&quot;, &quot;prediction_dataset_uri&quot;,              &quot;datetime&quot;, &quot;elapsed_time_testing&quot;, &quot;cpu_time_testing&quot;, &quot;cv_id&quot;, &quot;fold&quot;,              # classification attributes              &quot;class_auc&quot;, &quot;class_acc&quot;, &quot;class_tp&quot;, &quot;class_fp&quot;, &quot;class_tn&quot;, &quot;class_fn&quot;,              # regression attributes              &quot;reg_mae&quot;,              # not part of the valdiation object, must be derieved from the model              &quot;algorithm_name&quot;, &quot;training_dataset_name&quot;, &quot;test_dataset_name&quot;,              # crossvalidation attributes              &quot;CV_num_folds&quot;, &quot;CV_algorithm_uri&quot;, &quot;CV_dataset_uri&quot;, &quot;CV_stratified&quot;, &quot;CV_random_seed&quot;,              # not part of the crossvalidation object              &quot;CV_dataset_name&quot; ]</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+these are all attributes are stored in the validation object, the
+attributes that start with CV are initially not set
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">VAL_ATTR_VARIANCE</td>
+          <td>=</td>
+          <td class="context-item-value">[ &quot;class_auc&quot;, &quot;class_acc&quot;,                       &quot;reg_mae&quot; ]</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+the variance is computed when merging results for these attributes
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">VAL_ATTR_TRAIN_TEST</td>
+          <td>=</td>
+          <td class="context-item-value">[ &quot;algorithm_name&quot;, &quot;training_dataset_name&quot;, &quot;test_dataset_name&quot; ]</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+selected attributes of interest when generating the report for a
+train-/test-evaluation
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">VAL_ATTR_CV</td>
+          <td>=</td>
+          <td class="context-item-value">[ &quot;algorithm_name&quot;, &quot;CV_dataset_name&quot;, &quot;CV_num_folds&quot;, &quot;fold&quot; ]</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+selected attributes of interest when generating the crossvalidation report
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">VAL_ATTR_CLASS</td>
+          <td>=</td>
+          <td class="context-item-value">[ &quot;class_auc&quot;, &quot;class_acc&quot; ]</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+selected attributes of interest when performing classification
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">VAL_ATTR_REG</td>
+          <td>=</td>
+          <td class="context-item-value">[ &quot;reg_mae&quot; ]</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+selected attributes of interest when performing regression
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">R_PLOT_COLORS</td>
+          <td>=</td>
+          <td class="context-item-value">[&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;]</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+colors for r-plots
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">LOGGER</td>
+          <td>=</td>
+          <td class="context-item-value">Logger.new(STDOUT)</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">OT_ACCESS</td>
+          <td>=</td>
+          <td class="context-item-value">Reports::OTMockLayer.new</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+service for communication with the other webservice compounds
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">REPORT_PERSISTANCE</td>
+          <td>=</td>
+          <td class="context-item-value">Reports::FileReportPersistance.new(&quot;/home/martin/tmp/reports&quot;)</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+service for persisting reports
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

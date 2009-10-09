@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>delete_report (Reports::FileReportPersistance)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File report_persistance.rb, line 118</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">delete_report</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">id</span>)
+    
+    <span class="ruby-identifier">report_dir</span> = <span class="ruby-identifier">report_directory</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">id</span>)
+    <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">report_dir</span>)
+    
+    <span class="ruby-identifier">entries</span> = (<span class="ruby-constant">Dir</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">report_dir</span>).<span class="ruby-identifier">entries</span><span class="ruby-operator">-</span>[<span class="ruby-value str">&quot;.&quot;</span>, <span class="ruby-value str">&quot;..&quot;</span>]).<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">report_dir</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;/&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">f</span>.<span class="ruby-identifier">to_s</span>}
+    <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">rm</span>(<span class="ruby-identifier">entries</span>)
+    <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">rmdir</span> <span class="ruby-identifier">report_dir</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;could not delete report directory '&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">report_dir</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;'&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">report_dir</span>)
+    <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

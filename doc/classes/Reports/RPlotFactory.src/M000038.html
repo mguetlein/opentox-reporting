@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>create_bar_plot (Reports::RPlotFactory)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File r_plot_factory.rb, line 11</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">create_bar_plot</span>( <span class="ruby-identifier">out_file</span>, <span class="ruby-identifier">validation_set</span>, <span class="ruby-identifier">title_attribute</span>, <span class="ruby-identifier">value_attributes</span> )
+  
+    <span class="ruby-constant">LOGGER</span>.<span class="ruby-identifier">debug</span> <span class="ruby-value str">&quot;creating bar plot, out-file:&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">out_file</span>.<span class="ruby-identifier">to_s</span>
+    <span class="ruby-identifier">b</span> = <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">BarPlot</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">out_file</span> )
+    <span class="ruby-identifier">validation_set</span>.<span class="ruby-identifier">validations</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">b</span>.<span class="ruby-identifier">add_data</span>(<span class="ruby-identifier">v</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">title_attribute</span>), <span class="ruby-identifier">value_attributes</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">a</span>)})
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">b</span>.<span class="ruby-identifier">build_plot</span>(<span class="ruby-identifier">value_attributes</span>)
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
