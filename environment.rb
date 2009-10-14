@@ -41,6 +41,7 @@ load "ot_access.rb"
 load "validation_data.rb"
 load "predictions.rb"
 load "util.rb"
+load "external/mimeparse.rb"
 
 # the r-path has to be added for the rinruby plugin
 ENV['PATH'] = "/home/martin/software/R-2.8.0/bin:"+ENV['PATH']
@@ -56,6 +57,9 @@ require 'logger'
 require 'rexml/document'
 require 'fileutils'
 require 'tempfile'
+require 'sinatra'
+require 'sinatra/url_for' 
+require 'sinatra/respond_to'
 
 include REXML
 

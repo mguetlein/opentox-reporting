@@ -4,6 +4,11 @@
 # provides complete report webservice functionality
 #
 class Reports::ReportService
+  
+  def initialize(home_uri)
+    LOGGER.info "init report service"
+    @home_uri = home_uri
+  end
 
   # lists all available report types, returns list of uris
   #
@@ -55,33 +60,45 @@ class Reports::ReportService
     return get_uri(type, id)
   end
   
-  # returns report in a certain format, converts to this format if not yet exists, return uri of report on server 
+  # yields report in a certain format, converts to this format if not yet exists, returns uri of report on server 
   #
   # call-seq:
-  #   get_report( type, id, format ) => string
+  #   get_report( type, id, accept_header_value ) => string
   # 
-  def get_report( type, id, format )
+  def get_report( type, id, accept_header_value="text/xml" )
     
-    LOGGER.info "get report '"+id.to_s+"' of type '"+type.to_s+"' (format: '"+format+"')"
+    LOGGER.info "get report '"+id.to_s+"' of type '"+type.to_s+"' (accept-header-value: '"+accept_header_value.to_s+"')"
     
-    format.upcase!
-    raise Reports::BadRequest.new("report format not supported '"+format.to_s+"', supported formats are "+
-      Reports::ReportFormat::REPORT_FORMATS.inspect) unless Reports::ReportFormat::REPORT_FORMATS.index(format)
-    
-    result = REPORT_PERSISTANCE.get_report(type, id, format)
-    raise_not_found( type, id ) unless result
-    return get_base_uri+"/"+result
+    format = Reports::ReportFormat.get_format(accept_header_value)
+    return REPORT_PERSISTANCE.get_report(type, id, format)
   end
   
+  # returns a report resource (i.e. image)
+  #
+  # call-seq:
+  #   get_report_resource( type, id, resource ) => string
+  # 
+  def get_report_resource( type, id, resource )
+    
+    LOGGER.info "get resource '"+resource+"' for report '"+id.to_s+"' of type '"+type.to_s+"'"
+    return REPORT_PERSISTANCE.get_report_resource(type, id, resource)
+  end
+  
+  
+  # delets a report
+  #
+  # call-seq:
+  #   delete_report( type, id )
+  # 
   def delete_report( type, id )
     
     LOGGER.info "delete report '"+id.to_s+"' of type '"+type.to_s+"'"
-    raise_not_found( type, id) unless REPORT_PERSISTANCE.delete_report(type, id)
+    REPORT_PERSISTANCE.delete_report(type, id)
   end
   
   def parse_type( report_uri )
     
-    raise "invalid uri" unless report_uri.to_s =~/^#{get_base_uri}.*/
+    raise "invalid uri" unless report_uri.to_s =~/^#{@home_uri}.*/
     type = report_uri.squeeze("/").split("/")[-2]
     check_report_type(type)
     return type
@@ -89,28 +106,19 @@ class Reports::ReportService
   
   def parse_id( report_uri )
     
-    raise "invalid uri" unless report_uri.to_s =~/^#{get_base_uri}.*/
+    raise "invalid uri" unless report_uri.to_s =~/^#{@home_uri}.*/
     id = report_uri.squeeze("/").split("/")[-1]
     REPORT_PERSISTANCE.check_report_id_format(id)
     return id
   end
   
   protected
-  def get_base_uri
-    #PENDING replace with get uri method
-    "file://home/martin/tmp/reports"
-  end
-  
-  def raise_not_found(type, id)
-    raise Reports::NotFound.new("report not found, type:'"+type.to_s+"', id:'"+id.to_s+"'")
-  end
-  
   def get_uri(type, id=nil)
-    get_base_uri+"/"+type.to_s+(id!=nil ? "/"+id.to_s : "")
+    @home_uri+"/"+type.to_s+(id!=nil ? "/"+id.to_s : "")
   end
   
   def check_report_type(type)
-   raise Reports::NotFound.new("report type not found '"+type.to_s+"''") unless Reports::ReportFactory::REPORT_TYPES.index(type)
+   raise Reports::NotFound.new("report type not found '"+type.to_s+"'") unless Reports::ReportFactory::REPORT_TYPES.index(type)
   end
   
 end

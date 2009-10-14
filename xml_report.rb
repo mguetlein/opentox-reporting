@@ -26,6 +26,8 @@ class XMLReport
     author << XMLReportUtil.text_element("surname", author_surname)
     article_info << author
     @root << article_info
+    
+    @resource_path_elements = {}
   end
   
   # 
@@ -74,6 +76,7 @@ class XMLReport
     media = Element.new("mediaobject")
     image = Element.new("imageobject")
     imagedata = XMLReportUtil.attribute_element("imagedata",{"contentwidth" => "75%", "fileref" => path, "format"=>filetype})
+    @resource_path_elements[imagedata] = "fileref"
     #imagedata = XMLReportUtil.attribute_element("imagedata",{"width" => "6in", "fileref" => path, "format"=>filetype})
     image << imagedata
     media << image
@@ -146,7 +149,16 @@ class XMLReport
   end
   
   # writes xml document
-  def write_to( out = $stdout )
+  def write_to( out = $stdout, resource_path=nil )
+    
+    #alternativly use base href in html-header
+    if (resource_path)
+      @resource_path_elements.each do |k,v|
+        raise "attribute '"+v+"' not found in element '"+k+"'" unless k.attributes.has_key?(v)
+        k.add_attribute( v, resource_path.to_s+"/"+k.attributes[v].to_s )
+      end
+    end
+    
     @doc.write(out,2)
   end
 

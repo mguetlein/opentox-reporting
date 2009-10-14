@@ -23,13 +23,21 @@ class Reports::ReportPersistance
     raise "not implemented"
   end
   
-  # returns a already created report in a certain format (converts to this format if it does not exist yet)
-  # * PRENDING: unclear how the result should look like, url??
+  # returns a already created report (file path on server) in a certain format (converts to this format if it does not exist yet)
   #
   # call-seq:
   #   get_report(type, id, format) => string
   #
   def get_report(type, id, format)
+    raise "not implemented"
+  end
+  
+  # returns file path on server of a resource (i.e. image) of a report 
+  #
+  # call-seq:
+  #   get_report_resource(type, id, resource) => string
+  #
+  def get_report_resource(type, id, resource)
     raise "not implemented"
   end
   
@@ -83,9 +91,9 @@ class Reports::FileReportPersistance < Reports::ReportPersistance
     FileUtils.mkdir(report_dir)
     raise "report dir '"+report_dir+"' cannot be created" unless File.directory?(report_dir)
     
-    xml_filename = report_dir+"/report.XML"
+    xml_filename = report_dir+"/report.xml"
     xml_file = File.new(xml_filename, "w")
-    report_content.xml_report.write_to(xml_file)
+    report_content.xml_report.write_to(xml_file, id)
     xml_file.close
     if (report_content.tmp_files)
       report_content.tmp_files.each do |k,v|
@@ -102,23 +110,32 @@ class Reports::FileReportPersistance < Reports::ReportPersistance
   def get_report(type, id, format)
     
     report_dir = report_directory(type, id)
-    return nil unless File.directory?(report_dir)
+    raise_report_not_found(type, id) unless File.directory?(report_dir)
     
     filename = "report."+format
     file_path = report_dir+"/"+filename
+
     if !File.exist?(file_path)
-      Reports::ReportFormat.format_report(report_dir, "report.XML", filename, format)
+      Reports::ReportFormat.format_report(report_dir, "report.xml", filename, format)
       raise "formated file not found '"+file_path+"'" unless File.exist?(file_path)
     end
+
+    return file_path
+  end
+  
+  def get_report_resource(type, id, resource)
     
-    return type+"/"+id.to_s+"/"+"report."+format
-    #return "file:/"+file_path 
+    report_dir = report_directory(type, id)
+    raise_report_not_found(type, id) unless File.directory?(report_dir)
+    file_path = report_dir+"/"+resource.to_s
+    raise Reports::NotFound.new("resource not found, resource: '"+resource.to_s+"', type:'"+type.to_s+"', id:'"+id.to_s+"'") unless File.exist?(file_path)
+    return file_path
   end
   
   def delete_report(type, id)
     
     report_dir = report_directory(type, id)
-    return false unless File.directory?(report_dir)
+    raise_report_not_found(type, id) unless File.directory?(report_dir)
     
     entries = (Dir.new(report_dir).entries-[".", ".."]).collect{|f| report_dir+"/"+f.to_s}
     FileUtils.rm(entries)
@@ -132,6 +149,10 @@ class Reports::FileReportPersistance < Reports::ReportPersistance
   end
   
   private
+  def raise_report_not_found(type, id)
+    raise Reports::NotFound.new("report not found, type:'"+type.to_s+"', id:'"+id.to_s+"'")
+  end
+  
   def type_directory(type)
     dir = @report_dir+"/"+type
     FileUtils.mkdir dir.to_s unless (File.directory?(dir))

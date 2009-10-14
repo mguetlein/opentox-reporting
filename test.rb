@@ -1,12 +1,73 @@
-load "environment.rb"
+require 'application'
 
 require 'test/unit'
+require 'rack/test'
+ENV['RACK_ENV'] = 'test'
+
+
+class Reports::ApplicationTest < Test::Unit::TestCase
+  include Rack::Test::Methods
+
+  def app
+    Sinatra::Application
+  end
+
+  def test_index
+    get '/'
+    assert last_response.ok?
+    assert last_response.body.split("\n").size == Reports::ReportFactory::REPORT_TYPES.size
+    
+    Reports::ReportFactory::REPORT_TYPES.each do |t|
+      get '/'+t.to_s
+      assert last_response.ok?
+    end
+    get '/osterhase'
+    assert last_response.not_found?
+
+    post '/validation', :uri_list => "validation_uri_1\nvalidation_uri_2"  
+    assert last_response.status == 400
+ 
+    post '/validation', :uri_list => "validation_uri_1"
+    assert last_response.ok?
+    report_uri = last_response.body 
+    type = $rep.parse_type(report_uri)
+    assert type == "validation"
+    id = $rep.parse_id(report_uri)
+    
+    get '/validation/'+id.to_s, {}, {"HTTP_ACCEPT" => "weihnachtsmann"}
+    assert last_response.status == 400
+    get '/validation/'+id.to_s, {}, {"HTTP_ACCEPT" => "text/xml"}
+    assert last_response.ok?
+    get '/validation/'+id.to_s, {}, {"HTTP_ACCEPT" => "text/html"}
+    assert last_response.ok?
+    
+    delete '/validation/43984398'
+    assert last_response.not_found?
+    delete '/validation/'+id.to_s
+    assert last_response.ok?
+    
+    map = {"crossvalidation"=>"validation_uri_1\nvalidation_uri_2\nvalidation_uri_3\nvalidation_uri_4\nvalidation_uri_5",
+           "algorithm_comparison"=> ("validation_uri\n"*(Reports::OTMockLayer::NUM_DATASETS * Reports::OTMockLayer::NUM_ALGS * Reports::OTMockLayer::NUM_FOLDS)) }
+    map.each do |t,u|
+      OT_ACCESS.reset
+      post '/'+t.to_s, :uri_list=>u.to_s
+      assert last_response.ok?
+      report_uri = last_response.body 
+      type = $rep.parse_type(report_uri)
+      assert type == t
+      id = $rep.parse_id(report_uri)
+      delete '/'+t.to_s+'/'+id.to_s
+      assert last_response.ok?
+    end
+  end
+  
+end
 
 class Reports::ReportServiceTest < Test::Unit::TestCase
   
   def test_service
     
-    rep = Reports::ReportService.new
+    rep = Reports::ReportService.new("http://some.location")
     
     types = rep.get_report_types
     assert types.is_a?(String)
@@ -18,9 +79,10 @@ class Reports::ReportServiceTest < Test::Unit::TestCase
     assert_raise(Reports::BadRequest){report_uri = rep.create_report("validation", ["validation_uri_1","validation_uri_2"])}
     report_uri = rep.create_report("validation", ["validation_uri_1"])
     type = rep.parse_type(report_uri)
+    assert type == "validation"
     id = rep.parse_id(report_uri)
     assert_raise(Reports::BadRequest){rep.get_report(type, id, "weihnachtsmann")}
-    rep.get_report(type, id, "html")
+    rep.get_report(type, id, "text/html")
     assert_raise(Reports::NotFound){rep.delete_report(type, 877658)}
     rep.delete_report(type, id)
     

@@ -5,14 +5,30 @@
 #
 class Reports::ReportFormat
   
-  RF_HTML = "HTML"
-  REPORT_FORMATS = [RF_HTML]
+  RF_XML = "xml"
+  RF_HTML = "html"
+  RF_PDF = "pdf"
+  REPORT_FORMATS = [RF_XML, RF_HTML, RF_PDF]
+  CONTENT_TYPES = {"text/xml"=>RF_XML,"text/html"=>RF_HTML,"application/pdf"=>RF_PDF}
+  
+  # returns report-format, according to header value
+  def self.get_format(accept_header_value)
+
+    begin
+      content_type =  MIMEParse::best_match(CONTENT_TYPES.keys, accept_header_value)
+      raise RuntimeException.new unless content_type
+    rescue
+      raise Reports::BadRequest.new("Accept header '"+accept_header_value.to_s+"' not supported, supported types are "+CONTENT_TYPES.keys.join(", "))
+    end
+    return CONTENT_TYPES[content_type]
+  end
   
   # formats a report from xml into __format__
   # * xml report must be in __directory__ with filename __xml_filename__
   # * the new format can be found in __dest_filame__
   def self.format_report(directory, xml_filename, dest_filename, format)
     
+    raise "cannot format to XML" if format==RF_XML
     raise "directory does not exist: "+directory.to_s unless File.directory?directory.to_s
     xml_file = directory.to_s+"/"+xml_filename.to_s
     raise "xml file not found: "+xml_file unless File.exist?xml_file

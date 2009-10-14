@@ -4,9 +4,9 @@ load "environment.rb"
   ################################################
 
 #system("rm -rf /home/martin/tmp/reports/*")
-rep = Reports::ReportService.new
+#rep = Reports::ReportService.new("file://home/martin/tmp/reports")
 
-puts rep.get_all_reports("crossvalidation")
+#puts rep.get_all_reports("crossvalidation")
 
 #puts rep.parse_type_and_id("file://home/martin/tmp/reports/crossvalidation/1")
 #puts rep.get_all_reports("crossvalidation")
