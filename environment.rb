@@ -1,5 +1,3 @@
-module Reports
-end
 
 # these are all attributes are stored in the validation object, the attributes that start with CV are initially not set
 VAL_ATTR = [ # general validation attributes
@@ -30,19 +28,6 @@ VAL_ATTR_REG = [ "reg_mae" ]
 # colors for r-plots
 R_PLOT_COLORS = ["red", "blue", "green", "yellow"]
 
-load "r_plot_factory.rb"
-load "xml_report.rb"
-load "xml_report_util.rb"
-load "report_persistance.rb"
-load "report_factory.rb"
-load "report_service.rb"
-load "report_format.rb"
-load "ot_access.rb"
-load "validation_data.rb"
-load "predictions.rb"
-load "util.rb"
-load "external/mimeparse.rb"
-
 # the r-path has to be added for the rinruby plugin
 ENV['PATH'] = "/home/martin/software/R-2.8.0/bin:"+ENV['PATH']
 # graph-files are generated in the tmp-dir before they are stored
@@ -62,6 +47,22 @@ require 'sinatra/url_for'
 require 'sinatra/respond_to'
 
 include REXML
+
+module Reports
+end
+
+load "r_plot_factory.rb"
+load "xml_report.rb"
+load "xml_report_util.rb"
+load "report_persistance.rb"
+load "report_factory.rb"
+load "report_service.rb"
+load "report_format.rb"
+load "ot_access.rb"
+load "validation_data.rb"
+load "predictions.rb"
+load "util.rb"
+load "external/mimeparse.rb"
 
 LOGGER = Logger.new(STDOUT)
 LOGGER.datetime_format = "%Y-%m-%d %H:%M:%S "

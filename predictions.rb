@@ -35,7 +35,7 @@ class Reports::Predictions
   end
 end
 
-class Reports::PredictionUtil
+module Reports::PredictionUtil
 
   # creates an Array for a table
   # * first row: header values

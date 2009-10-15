@@ -5,7 +5,7 @@
 #
 # uses Env-Variable _XMLREPORT_DTD_ to specifiy the dtd
 #  
-class XMLReport
+class Reports::XMLReport
   
   # create new xmlreport
   def initialize(title, author_firstname = nil, author_surname = nil)
@@ -20,10 +20,10 @@ class XMLReport
     @doc << @root
 
     article_info = Element.new("articleinfo")
-    article_info << XMLReportUtil.text_element("title", title)
+    article_info << Reports::XMLReportUtil.text_element("title", title)
     author = Element.new("author")
-    author << XMLReportUtil.text_element("firstname", author_firstname)
-    author << XMLReportUtil.text_element("surname", author_surname)
+    author << Reports::XMLReportUtil.text_element("firstname", author_firstname)
+    author << Reports::XMLReportUtil.text_element("surname", author_surname)
     article_info << author
     @root << article_info
     
@@ -46,7 +46,7 @@ class XMLReport
   def add_section(element, title)
     
     section = Element.new("section")
-    section << XMLReportUtil.text_element("title", title)
+    section << Reports::XMLReportUtil.text_element("title", title)
     element << section
     return section
   end
@@ -57,7 +57,7 @@ class XMLReport
   #
   def add_paragraph( element, text )
     
-    para = XMLReportUtil.text_element("para", text)
+    para = Reports::XMLReportUtil.text_element("para", text)
     element << para
     return para
   end
@@ -71,16 +71,16 @@ class XMLReport
   #
   def add_imagefigure( element, title, path, filetype, caption = nil )
     
-    figure = XMLReportUtil.attribute_element("figure", {"float" => 0})
-    figure << XMLReportUtil.text_element("title", title)
+    figure = Reports::XMLReportUtil.attribute_element("figure", {"float" => 0})
+    figure << Reports::XMLReportUtil.text_element("title", title)
     media = Element.new("mediaobject")
     image = Element.new("imageobject")
-    imagedata = XMLReportUtil.attribute_element("imagedata",{"contentwidth" => "75%", "fileref" => path, "format"=>filetype})
+    imagedata = Reports::XMLReportUtil.attribute_element("imagedata",{"contentwidth" => "75%", "fileref" => path, "format"=>filetype})
     @resource_path_elements[imagedata] = "fileref"
     #imagedata = XMLReportUtil.attribute_element("imagedata",{"width" => "6in", "fileref" => path, "format"=>filetype})
     image << imagedata
     media << image
-    media << XMLReportUtil.text_element("caption", caption) if caption
+    media << Reports::XMLReportUtil.text_element("caption", caption) if caption
     figure << media
     element << figure
     return figure    
@@ -95,13 +95,13 @@ class XMLReport
     
     raise "table_values is not mulit-dimensional-array" unless table_values && table_values.is_a?(Array) && table_values[0].is_a?(Array) 
     
-    table = XMLReportUtil.attribute_element("table",{"frame" => "top", "colsep" => 0, "rowsep" => 0})
+    table = Reports::XMLReportUtil.attribute_element("table",{"frame" => "top", "colsep" => 0, "rowsep" => 0})
     
-    table << XMLReportUtil.text_element("title", title)
+    table << Reports::XMLReportUtil.text_element("title", title)
     
     raise "column count 0" if table_values.at(0).size < 1 
     
-    tgroup = XMLReportUtil.attribute_element("tgroup",{"cols" => table_values.at(0).size})
+    tgroup = Reports::XMLReportUtil.attribute_element("tgroup",{"cols" => table_values.at(0).size})
     
     table_body_values = table_values
     
@@ -111,7 +111,7 @@ class XMLReport
       
       thead = Element.new("thead")
       row = Element.new("row")
-      table_head_values.each{ |v| row << XMLReportUtil.text_element("entry", v.to_s) }
+      table_head_values.each{ |v| row << Reports::XMLReportUtil.text_element("entry", v.to_s) }
       thead << row
       tgroup << thead
     end
@@ -119,7 +119,7 @@ class XMLReport
     tbody = Element.new("tbody") 
     table_body_values.each do |r|
       row = Element.new("row")
-      r.each { |v| row << XMLReportUtil.text_element("entry", v.to_s) }
+      r.each { |v| row << Reports::XMLReportUtil.text_element("entry", v.to_s) }
       tbody << row
     end
     tgroup << tbody 

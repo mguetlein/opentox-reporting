@@ -3,7 +3,7 @@
 #
 # creates plots from validation-sets using rinruby
 #
-class Reports::RPlotFactory 
+module Reports::RPlotFactory 
 
   # creates a bar plot (result is plotted into out_file), 
   # one category for each attribute in value_attributes, title_attribute is used for the legend

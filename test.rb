@@ -106,7 +106,7 @@ class Reports::XMLReportTest < Test::Unit::TestCase
   
   def test_all
     
-    rep = XMLReport.new("a","b","c")
+    rep = Reports::XMLReport.new("a","b","c")
     section1 = rep.add_section(rep.get_root_element, "d")
     rep.add_paragraph(section1, "e")
     rep.add_imagefigure(section1, "f", "g", "h", "i")
@@ -127,7 +127,7 @@ class Reports::XMLReportUtilTest < Test::Unit::TestCase
   
   def test_create_matrix
     
-    matrix = XMLReportUtil.create_confusion_matrix(1,2,3,4)
+    matrix = Reports::XMLReportUtil.create_confusion_matrix(1,2,3,4)
     assert matrix.is_a?(Array)
     assert matrix[0].is_a?(Array)
   end

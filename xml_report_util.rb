@@ -3,7 +3,7 @@
 #
 # Utilities for XMLReport
 #
-class XMLReportUtil
+module Reports::XMLReportUtil
   
   # creates a confusion matrix as array (to be used as input for Reports::XMLReport::add_table)
   #

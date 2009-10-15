@@ -3,7 +3,7 @@
 #
 # creates various reports (Reports::ReportContent) 
 #
-class Reports::ReportFactory
+module Reports::ReportFactory
   
   RT_FASTTOX = "fasttox"
   RT_VALIDATION = "validation"
@@ -109,7 +109,7 @@ class Reports::ReportContent
   attr_accessor :xml_report, :tmp_files
   
   def initialize(title)
-    @xml_report = XMLReport.new(title)
+    @xml_report = Reports::XMLReport.new(title)
   end
   
   def add_section_predictions( validation_set, 
@@ -145,7 +145,7 @@ class Reports::ReportContent
                                 
     section_confusion = @xml_report.add_section(xml_report.get_root_element, section_title)
     @xml_report.add_paragraph(section_confusion, section_text) if section_text
-    @xml_report.add_table(section_confusion, table_title, XMLReportUtil::create_confusion_matrix(validation.class_tp, validation.class_fp, validation.class_tn, validation.class_fn), false)
+    @xml_report.add_table(section_confusion, table_title, Reports::XMLReportUtil::create_confusion_matrix(validation.class_tp, validation.class_fp, validation.class_tn, validation.class_fn), false)
 
   end
 

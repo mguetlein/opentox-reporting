@@ -3,7 +3,7 @@
 # 
 # provides functions for converting reports from xml to other formats
 #
-class Reports::ReportFormat
+module Reports::ReportFormat
   
   RF_XML = "xml"
   RF_HTML = "html"

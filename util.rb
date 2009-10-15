@@ -14,7 +14,7 @@ end
 #
 # utilities
 #
-class Reports::Util
+module Reports::Util
   
   # groups attributes the into groups with equal values for __equal_attributes__, returns an array with sub-arrays for each group  
   # * see Reports::UtilTest for an example
