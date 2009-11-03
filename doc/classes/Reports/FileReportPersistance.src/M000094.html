@@ -5,22 +5,14 @@
 
 <html>
 <head>
-  <title>delete_report (Reports::FileReportPersistance)</title>
+  <title>list_reports (Reports::FileReportPersistance)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File report_persistance.rb, line 118</span>
-  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">delete_report</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">id</span>)
-    
-    <span class="ruby-identifier">report_dir</span> = <span class="ruby-identifier">report_directory</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">id</span>)
-    <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">report_dir</span>)
-    
-    <span class="ruby-identifier">entries</span> = (<span class="ruby-constant">Dir</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">report_dir</span>).<span class="ruby-identifier">entries</span><span class="ruby-operator">-</span>[<span class="ruby-value str">&quot;.&quot;</span>, <span class="ruby-value str">&quot;..&quot;</span>]).<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">report_dir</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;/&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">f</span>.<span class="ruby-identifier">to_s</span>}
-    <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">rm</span>(<span class="ruby-identifier">entries</span>)
-    <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">rmdir</span> <span class="ruby-identifier">report_dir</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;could not delete report directory '&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">report_dir</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;'&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">report_dir</span>)
-    <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
+  <pre><span class="ruby-comment cmt"># File report_persistance.rb, line 79</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">list_reports</span>(<span class="ruby-identifier">type</span>)
+    (<span class="ruby-constant">Dir</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">type_directory</span>(<span class="ruby-identifier">type</span>)).<span class="ruby-identifier">entries</span> <span class="ruby-operator">-</span> [<span class="ruby-value str">&quot;.&quot;</span>, <span class="ruby-value str">&quot;..&quot;</span>]).<span class="ruby-identifier">sort</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">to_i</span>}
   <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

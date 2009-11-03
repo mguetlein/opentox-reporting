@@ -95,11 +95,11 @@ does not connect to other services, provides randomly generated data
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000045">init_cv</a>&nbsp;&nbsp;
-      <a href="#M000046">init_predictions</a>&nbsp;&nbsp;
-      <a href="#M000044">init_validation</a>&nbsp;&nbsp;
-      <a href="#M000042">new</a>&nbsp;&nbsp;
-      <a href="#M000043">reset</a>&nbsp;&nbsp;
+      <a href="#M000053">get_predictions</a>&nbsp;&nbsp;
+      <a href="#M000052">init_cv</a>&nbsp;&nbsp;
+      <a href="#M000051">init_validation</a>&nbsp;&nbsp;
+      <a href="#M000049">new</a>&nbsp;&nbsp;
+      <a href="#M000050">resolve_cv_uris</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -151,36 +151,6 @@ does not connect to other services, provides randomly generated data
           <td>=</td>
           <td class="context-item-value">[1,2,3,4,5,6,7,8,9,10]</td>
         </tr>
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">CV_num_folds</td>
-          <td>=</td>
-          <td class="context-item-value">NUM_FOLDS</td>
-        </tr>
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">CV_algorithm_uri</td>
-          <td>=</td>
-          <td class="context-item-value">@algs[validation.cv_id.to_i * NUM_FOLDS]</td>
-        </tr>
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">CV_dataset_uri</td>
-          <td>=</td>
-          <td class="context-item-value">@datasets[validation.cv_id.to_i * NUM_FOLDS]</td>
-        </tr>
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">CV_stratified</td>
-          <td>=</td>
-          <td class="context-item-value">true</td>
-        </tr>
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">CV_random_seed</td>
-          <td>=</td>
-          <td class="context-item-value">1</td>
-        </tr>
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">CV_dataset_name</td>
-          <td>=</td>
-          <td class="context-item-value">@datasets[validation.cv_id.to_i * NUM_FOLDS]</td>
-        </tr>
         </table>
       </div>
     </div>
@@ -194,12 +164,12 @@ does not connect to other services, provides randomly generated data
     <div id="methods">
       <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000042" class="method-detail">
-        <a name="M000042"></a>
+      <div id="method-M000049" class="method-detail">
+        <a name="M000049"></a>
 
         <div class="method-heading">
-          <a href="OTMockLayer.src/M000042.html" target="Code" class="method-signature"
-            onclick="popupCode('OTMockLayer.src/M000042.html');return false;">
+          <a href="OTMockLayer.src/M000049.html" target="Code" class="method-signature"
+            onclick="popupCode('OTMockLayer.src/M000049.html');return false;">
           <span class="method-name">new</span><span class="method-args">()</span>
           </a>
         </div>
@@ -210,12 +180,26 @@ does not connect to other services, provides randomly generated data
 
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000045" class="method-detail">
-        <a name="M000045"></a>
+      <div id="method-M000053" class="method-detail">
+        <a name="M000053"></a>
 
         <div class="method-heading">
-          <a href="OTMockLayer.src/M000045.html" target="Code" class="method-signature"
-            onclick="popupCode('OTMockLayer.src/M000045.html');return false;">
+          <a href="OTMockLayer.src/M000053.html" target="Code" class="method-signature"
+            onclick="popupCode('OTMockLayer.src/M000053.html');return false;">
+          <span class="method-name">get_predictions</span><span class="method-args">(test_dataset_uri, prediction_dataset_uri)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000052" class="method-detail">
+        <a name="M000052"></a>
+
+        <div class="method-heading">
+          <a href="OTMockLayer.src/M000052.html" target="Code" class="method-signature"
+            onclick="popupCode('OTMockLayer.src/M000052.html');return false;">
           <span class="method-name">init_cv</span><span class="method-args">(validation)</span>
           </a>
         </div>
@@ -224,26 +208,12 @@ does not connect to other services, provides randomly generated data
         </div>
       </div>
 
-      <div id="method-M000046" class="method-detail">
-        <a name="M000046"></a>
+      <div id="method-M000051" class="method-detail">
+        <a name="M000051"></a>
 
         <div class="method-heading">
-          <a href="OTMockLayer.src/M000046.html" target="Code" class="method-signature"
-            onclick="popupCode('OTMockLayer.src/M000046.html');return false;">
-          <span class="method-name">init_predictions</span><span class="method-args">(predictions, test_dataset_uri, prediction_dataset_uri)</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000044" class="method-detail">
-        <a name="M000044"></a>
-
-        <div class="method-heading">
-          <a href="OTMockLayer.src/M000044.html" target="Code" class="method-signature"
-            onclick="popupCode('OTMockLayer.src/M000044.html');return false;">
+          <a href="OTMockLayer.src/M000051.html" target="Code" class="method-signature"
+            onclick="popupCode('OTMockLayer.src/M000051.html');return false;">
           <span class="method-name">init_validation</span><span class="method-args">(validation, uri)</span>
           </a>
         </div>
@@ -252,13 +222,13 @@ does not connect to other services, provides randomly generated data
         </div>
       </div>
 
-      <div id="method-M000043" class="method-detail">
-        <a name="M000043"></a>
+      <div id="method-M000050" class="method-detail">
+        <a name="M000050"></a>
 
         <div class="method-heading">
-          <a href="OTMockLayer.src/M000043.html" target="Code" class="method-signature"
-            onclick="popupCode('OTMockLayer.src/M000043.html');return false;">
-          <span class="method-name">reset</span><span class="method-args">()</span>
+          <a href="OTMockLayer.src/M000050.html" target="Code" class="method-signature"
+            onclick="popupCode('OTMockLayer.src/M000050.html');return false;">
+          <span class="method-name">resolve_cv_uris</span><span class="method-args">(uri_list)</span>
           </a>
         </div>
       

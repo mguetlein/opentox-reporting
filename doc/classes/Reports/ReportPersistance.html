@@ -96,11 +96,12 @@ various formats
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000085">check_report_id_format</a>&nbsp;&nbsp;
-      <a href="#M000084">delete_report</a>&nbsp;&nbsp;
-      <a href="#M000083">get_report</a>&nbsp;&nbsp;
-      <a href="#M000081">list_reports</a>&nbsp;&nbsp;
-      <a href="#M000082">new_report</a>&nbsp;&nbsp;
+      <a href="#M000091">check_report_id_format</a>&nbsp;&nbsp;
+      <a href="#M000090">delete_report</a>&nbsp;&nbsp;
+      <a href="#M000088">get_report</a>&nbsp;&nbsp;
+      <a href="#M000089">get_report_resource</a>&nbsp;&nbsp;
+      <a href="#M000086">list_reports</a>&nbsp;&nbsp;
+      <a href="#M000087">new_report</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -122,12 +123,12 @@ various formats
     <div id="methods">
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000085" class="method-detail">
-        <a name="M000085"></a>
+      <div id="method-M000091" class="method-detail">
+        <a name="M000091"></a>
 
         <div class="method-heading">
-          <a href="ReportPersistance.src/M000085.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportPersistance.src/M000085.html');return false;">
+          <a href="ReportPersistance.src/M000091.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportPersistance.src/M000091.html');return false;">
           <span class="method-name">check_report_id_format</span><span class="method-args">(id)</span>
           </a>
         </div>
@@ -139,12 +140,12 @@ raises exception if not valid id format
         </div>
       </div>
 
-      <div id="method-M000084" class="method-detail">
-        <a name="M000084"></a>
+      <div id="method-M000090" class="method-detail">
+        <a name="M000090"></a>
 
         <div class="method-heading">
-          <a href="ReportPersistance.src/M000084.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportPersistance.src/M000084.html');return false;">
+          <a href="ReportPersistance.src/M000090.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportPersistance.src/M000090.html');return false;">
           <span class="method-name">delete_report(type, id) => boolean<br />
 </span>
           </a>
@@ -168,12 +169,12 @@ deletes a report
         </div>
       </div>
 
-      <div id="method-M000083" class="method-detail">
-        <a name="M000083"></a>
+      <div id="method-M000088" class="method-detail">
+        <a name="M000088"></a>
 
         <div class="method-heading">
-          <a href="ReportPersistance.src/M000083.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportPersistance.src/M000083.html');return false;">
+          <a href="ReportPersistance.src/M000088.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportPersistance.src/M000088.html');return false;">
           <span class="method-name">get_report(type, id, format) => string<br />
 </span>
           </a>
@@ -181,23 +182,36 @@ deletes a report
       
         <div class="method-description">
           <p>
-returns a already created report in a certain format (converts to this
-format if it does not exist yet)
+returns a already created report (file path on server) in a certain format
+(converts to this format if it does not exist yet)
 </p>
-<ul>
-<li>PRENDING: unclear how the result should look like, url??
-
-</li>
-</ul>
         </div>
       </div>
 
-      <div id="method-M000081" class="method-detail">
-        <a name="M000081"></a>
+      <div id="method-M000089" class="method-detail">
+        <a name="M000089"></a>
 
         <div class="method-heading">
-          <a href="ReportPersistance.src/M000081.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportPersistance.src/M000081.html');return false;">
+          <a href="ReportPersistance.src/M000089.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportPersistance.src/M000089.html');return false;">
+          <span class="method-name">get_report_resource(type, id, resource) => string<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+returns file path on server of a resource (i.e. image) of a report
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000086" class="method-detail">
+        <a name="M000086"></a>
+
+        <div class="method-heading">
+          <a href="ReportPersistance.src/M000086.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportPersistance.src/M000086.html');return false;">
           <span class="method-name">list_reports(type) => Array<br />
 </span>
           </a>
@@ -210,12 +224,12 @@ lists all stored report ID-s of a certain type
         </div>
       </div>
 
-      <div id="method-M000082" class="method-detail">
-        <a name="M000082"></a>
+      <div id="method-M000087" class="method-detail">
+        <a name="M000087"></a>
 
         <div class="method-heading">
-          <a href="ReportPersistance.src/M000082.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportPersistance.src/M000082.html');return false;">
+          <a href="ReportPersistance.src/M000087.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportPersistance.src/M000087.html');return false;">
           <span class="method-name">new_report(report_content) => string<br />
 </span>
           </a>

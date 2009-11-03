@@ -5,27 +5,14 @@
 
 <html>
 <head>
-  <title>merge (Reports::ValidationSet)</title>
+  <title>num_different_values (Reports::ValidationSet)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File validation_data.rb, line 208</span>
-  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">merge</span>(<span class="ruby-identifier">equal_attributes</span>)
-    <span class="ruby-identifier">new_set</span> = <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">ValidationSet</span>.<span class="ruby-identifier">new</span>
-    
-    <span class="ruby-comment cmt">#compute grouping</span>
-    <span class="ruby-identifier">grouping</span> = <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span>.<span class="ruby-identifier">group</span>(<span class="ruby-ivar">@validations</span>, <span class="ruby-identifier">equal_attributes</span>)
-
-    <span class="ruby-comment cmt">#merge</span>
-    <span class="ruby-identifier">grouping</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">g</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">new_set</span>.<span class="ruby-identifier">validations</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">g</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">clone</span>)
-      <span class="ruby-identifier">g</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
-        <span class="ruby-identifier">new_set</span>.<span class="ruby-identifier">validations</span>[<span class="ruby-value">-1</span>] = <span class="ruby-identifier">new_set</span>.<span class="ruby-identifier">validations</span>[<span class="ruby-value">-1</span>].<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">v</span>, <span class="ruby-identifier">equal_attributes</span>)
-      <span class="ruby-keyword kw">end</span>
-    <span class="ruby-keyword kw">end</span>
-    
-    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">new_set</span>
+  <pre><span class="ruby-comment cmt"># File validation_data.rb, line 156</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">num_different_values</span>(<span class="ruby-identifier">attribute</span>)
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">get_values</span>(<span class="ruby-identifier">attribute</span>).<span class="ruby-identifier">size</span>
   <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

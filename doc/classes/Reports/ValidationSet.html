@@ -83,9 +83,9 @@
     <div id="description">
       <h1><a href="../Reports.html">Reports</a>:<a href="ValidationSet.html">ValidationSet</a></h1>
 <p>
-contains an array of <a href="ValidationSet.html#M000027">validations</a>,
+contains an array of <a href="ValidationSet.html#M000032">validations</a>,
 including some functionality as merging <a
-href="ValidationSet.html#M000027">validations</a>..
+href="ValidationSet.html#M000032">validations</a>..
 </p>
 
     </div>
@@ -97,18 +97,18 @@ href="ValidationSet.html#M000027">validations</a>..
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000023">filter</a>&nbsp;&nbsp;
-      <a href="#M000018">first</a>&nbsp;&nbsp;
-      <a href="#M000017">get</a>&nbsp;&nbsp;
-      <a href="#M000019">get_values</a>&nbsp;&nbsp;
-      <a href="#M000021">has_nil_values?</a>&nbsp;&nbsp;
-      <a href="#M000022">load_cv_attributes</a>&nbsp;&nbsp;
-      <a href="#M000025">merge</a>&nbsp;&nbsp;
-      <a href="#M000016">new</a>&nbsp;&nbsp;
-      <a href="#M000020">num_different_values</a>&nbsp;&nbsp;
-      <a href="#M000026">size</a>&nbsp;&nbsp;
-      <a href="#M000024">to_array</a>&nbsp;&nbsp;
-      <a href="#M000027">validations</a>&nbsp;&nbsp;
+      <a href="#M000028">filter</a>&nbsp;&nbsp;
+      <a href="#M000023">first</a>&nbsp;&nbsp;
+      <a href="#M000022">get</a>&nbsp;&nbsp;
+      <a href="#M000024">get_values</a>&nbsp;&nbsp;
+      <a href="#M000026">has_nil_values?</a>&nbsp;&nbsp;
+      <a href="#M000027">load_cv_attributes</a>&nbsp;&nbsp;
+      <a href="#M000030">merge</a>&nbsp;&nbsp;
+      <a href="#M000021">new</a>&nbsp;&nbsp;
+      <a href="#M000025">num_different_values</a>&nbsp;&nbsp;
+      <a href="#M000031">size</a>&nbsp;&nbsp;
+      <a href="#M000029">to_array</a>&nbsp;&nbsp;
+      <a href="#M000032">validations</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -130,12 +130,12 @@ href="ValidationSet.html#M000027">validations</a>..
     <div id="methods">
       <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000016" class="method-detail">
-        <a name="M000016"></a>
+      <div id="method-M000021" class="method-detail">
+        <a name="M000021"></a>
 
         <div class="method-heading">
-          <a href="ValidationSet.src/M000016.html" target="Code" class="method-signature"
-            onclick="popupCode('ValidationSet.src/M000016.html');return false;">
+          <a href="ValidationSet.src/M000021.html" target="Code" class="method-signature"
+            onclick="popupCode('ValidationSet.src/M000021.html');return false;">
           <span class="method-name">new</span><span class="method-args">(uri_list = nil)</span>
           </a>
         </div>
@@ -146,12 +146,12 @@ href="ValidationSet.html#M000027">validations</a>..
 
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000023" class="method-detail">
-        <a name="M000023"></a>
+      <div id="method-M000028" class="method-detail">
+        <a name="M000028"></a>
 
         <div class="method-heading">
-          <a href="ValidationSet.src/M000023.html" target="Code" class="method-signature"
-            onclick="popupCode('ValidationSet.src/M000023.html');return false;">
+          <a href="ValidationSet.src/M000028.html" target="Code" class="method-signature"
+            onclick="popupCode('ValidationSet.src/M000028.html');return false;">
           <span class="method-name">filter(map) => Reports::ValidationSet<br />
 </span>
           </a>
@@ -159,85 +159,23 @@ href="ValidationSet.html#M000027">validations</a>..
       
         <div class="method-description">
           <p>
-returns a <a href="ValidationSet.html#M000016">new</a> set with all
+returns a <a href="ValidationSet.html#M000021">new</a> set with all
 validation that have values as specified in the map
 </p>
         </div>
       </div>
 
-      <div id="method-M000018" class="method-detail">
-        <a name="M000018"></a>
+      <div id="method-M000023" class="method-detail">
+        <a name="M000023"></a>
 
         <div class="method-heading">
-          <a href="ValidationSet.src/M000018.html" target="Code" class="method-signature"
-            onclick="popupCode('ValidationSet.src/M000018.html');return false;">
+          <a href="ValidationSet.src/M000023.html" target="Code" class="method-signature"
+            onclick="popupCode('ValidationSet.src/M000023.html');return false;">
           <span class="method-name">first</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000017" class="method-detail">
-        <a name="M000017"></a>
-
-        <div class="method-heading">
-          <a href="ValidationSet.src/M000017.html" target="Code" class="method-signature"
-            onclick="popupCode('ValidationSet.src/M000017.html');return false;">
-          <span class="method-name">get</span><span class="method-args">(index)</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000019" class="method-detail">
-        <a name="M000019"></a>
-
-        <div class="method-heading">
-          <a href="ValidationSet.src/M000019.html" target="Code" class="method-signature"
-            onclick="popupCode('ValidationSet.src/M000019.html');return false;">
-          <span class="method-name">get_values(attribute, unique=true) => array<br />
-</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-          <p>
-returns the values of the <a
-href="ValidationSet.html#M000027">validations</a> for <em>attribute</em>
-</p>
-<ul>
-<li>if unique is true a set is returned, i.e. not redundant info
-
-</li>
-<li>=&gt; if unique is false the <a href="ValidationSet.html#M000026">size</a>
-of the returned array is equal to the number of <a
-href="ValidationSet.html#M000027">validations</a>
-
-</li>
-</ul>
-        </div>
-      </div>
-
-      <div id="method-M000021" class="method-detail">
-        <a name="M000021"></a>
-
-        <div class="method-heading">
-          <a href="ValidationSet.src/M000021.html" target="Code" class="method-signature"
-            onclick="popupCode('ValidationSet.src/M000021.html');return false;">
-          <span class="method-name">has_nil_values?(attribute) => boolean<br />
-</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-          <p>
-returns true if at least one validation has a nil value for
-<em>attribute</em>
-</p>
         </div>
       </div>
 
@@ -247,61 +185,7 @@ returns true if at least one validation has a nil value for
         <div class="method-heading">
           <a href="ValidationSet.src/M000022.html" target="Code" class="method-signature"
             onclick="popupCode('ValidationSet.src/M000022.html');return false;">
-          <span class="method-name">load_cv_attributes</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000025" class="method-detail">
-        <a name="M000025"></a>
-
-        <div class="method-heading">
-          <a href="ValidationSet.src/M000025.html" target="Code" class="method-signature"
-            onclick="popupCode('ValidationSet.src/M000025.html');return false;">
-          <span class="method-name">to_array(attributes) => array<br />
-</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-          <p>
-creates a <a href="ValidationSet.html#M000016">new</a> validaiton set, that
-contains merged <a href="ValidationSet.html#M000027">validations</a> all
-validation with equal values for <em>equal_attributes</em> are summed up in
-one validation, i.e. merged
-</p>
-        </div>
-      </div>
-
-      <div id="method-M000020" class="method-detail">
-        <a name="M000020"></a>
-
-        <div class="method-heading">
-          <a href="ValidationSet.src/M000020.html" target="Code" class="method-signature"
-            onclick="popupCode('ValidationSet.src/M000020.html');return false;">
-          <span class="method-name">num_different_values(attribute) => integer<br />
-</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-          <p>
-returns the number of different values that exist for an attribute in the
-validation set
-</p>
-        </div>
-      </div>
-
-      <div id="method-M000026" class="method-detail">
-        <a name="M000026"></a>
-
-        <div class="method-heading">
-          <a href="ValidationSet.src/M000026.html" target="Code" class="method-signature"
-            onclick="popupCode('ValidationSet.src/M000026.html');return false;">
-          <span class="method-name">size</span><span class="method-args">()</span>
+          <span class="method-name">get</span><span class="method-args">(index)</span>
           </a>
         </div>
       
@@ -315,6 +199,122 @@ validation set
         <div class="method-heading">
           <a href="ValidationSet.src/M000024.html" target="Code" class="method-signature"
             onclick="popupCode('ValidationSet.src/M000024.html');return false;">
+          <span class="method-name">get_values(attribute, unique=true) => array<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+returns the values of the <a
+href="ValidationSet.html#M000032">validations</a> for <em>attribute</em>
+</p>
+<ul>
+<li>if unique is true a set is returned, i.e. not redundant info
+
+</li>
+<li>=&gt; if unique is false the <a href="ValidationSet.html#M000031">size</a>
+of the returned array is equal to the number of <a
+href="ValidationSet.html#M000032">validations</a>
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000026" class="method-detail">
+        <a name="M000026"></a>
+
+        <div class="method-heading">
+          <a href="ValidationSet.src/M000026.html" target="Code" class="method-signature"
+            onclick="popupCode('ValidationSet.src/M000026.html');return false;">
+          <span class="method-name">has_nil_values?(attribute) => boolean<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+returns true if at least one validation has a nil value for
+<em>attribute</em>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000027" class="method-detail">
+        <a name="M000027"></a>
+
+        <div class="method-heading">
+          <a href="ValidationSet.src/M000027.html" target="Code" class="method-signature"
+            onclick="popupCode('ValidationSet.src/M000027.html');return false;">
+          <span class="method-name">load_cv_attributes</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000030" class="method-detail">
+        <a name="M000030"></a>
+
+        <div class="method-heading">
+          <a href="ValidationSet.src/M000030.html" target="Code" class="method-signature"
+            onclick="popupCode('ValidationSet.src/M000030.html');return false;">
+          <span class="method-name">to_array(attributes) => array<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+creates a <a href="ValidationSet.html#M000021">new</a> validaiton set, that
+contains merged <a href="ValidationSet.html#M000032">validations</a> all
+validation with equal values for <em>equal_attributes</em> are summed up in
+one validation, i.e. merged
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000025" class="method-detail">
+        <a name="M000025"></a>
+
+        <div class="method-heading">
+          <a href="ValidationSet.src/M000025.html" target="Code" class="method-signature"
+            onclick="popupCode('ValidationSet.src/M000025.html');return false;">
+          <span class="method-name">num_different_values(attribute) => integer<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+returns the number of different values that exist for an attribute in the
+validation set
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000031" class="method-detail">
+        <a name="M000031"></a>
+
+        <div class="method-heading">
+          <a href="ValidationSet.src/M000031.html" target="Code" class="method-signature"
+            onclick="popupCode('ValidationSet.src/M000031.html');return false;">
+          <span class="method-name">size</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000029" class="method-detail">
+        <a name="M000029"></a>
+
+        <div class="method-heading">
+          <a href="ValidationSet.src/M000029.html" target="Code" class="method-signature"
+            onclick="popupCode('ValidationSet.src/M000029.html');return false;">
           <span class="method-name">to_array(attributes) => array<br />
 </span>
           </a>
@@ -326,7 +326,7 @@ returns an array, with values for <em>attributes</em>, that can be use for
 a table
 </p>
 <ul>
-<li><a href="ValidationSet.html#M000018">first</a> row is header row
+<li><a href="ValidationSet.html#M000023">first</a> row is header row
 
 </li>
 <li>other rows are values
@@ -336,12 +336,12 @@ a table
         </div>
       </div>
 
-      <div id="method-M000027" class="method-detail">
-        <a name="M000027"></a>
+      <div id="method-M000032" class="method-detail">
+        <a name="M000032"></a>
 
         <div class="method-heading">
-          <a href="ValidationSet.src/M000027.html" target="Code" class="method-signature"
-            onclick="popupCode('ValidationSet.src/M000027.html');return false;">
+          <a href="ValidationSet.src/M000032.html" target="Code" class="method-signature"
+            onclick="popupCode('ValidationSet.src/M000032.html');return false;">
           <span class="method-name">validations</span><span class="method-args">()</span>
           </a>
         </div>

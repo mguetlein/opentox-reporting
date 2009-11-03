@@ -80,13 +80,6 @@
 
   <div id="contextContent">
 
-    <div id="description">
-      <h1><a href="ReportService.html">Reports::ReportService</a></h1>
-<p>
-provides complete report webservice functionality
-</p>
-
-    </div>
 
 
    </div>
@@ -95,17 +88,17 @@ provides complete report webservice functionality
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000058">check_report_type</a>&nbsp;&nbsp;
-      <a href="#M000050">create_report</a>&nbsp;&nbsp;
-      <a href="#M000052">delete_report</a>&nbsp;&nbsp;
-      <a href="#M000049">get_all_reports</a>&nbsp;&nbsp;
-      <a href="#M000055">get_base_uri</a>&nbsp;&nbsp;
-      <a href="#M000051">get_report</a>&nbsp;&nbsp;
-      <a href="#M000048">get_report_types</a>&nbsp;&nbsp;
-      <a href="#M000057">get_uri</a>&nbsp;&nbsp;
-      <a href="#M000054">parse_id</a>&nbsp;&nbsp;
-      <a href="#M000053">parse_type</a>&nbsp;&nbsp;
-      <a href="#M000056">raise_not_found</a>&nbsp;&nbsp;
+      <a href="#M000065">check_report_type</a>&nbsp;&nbsp;
+      <a href="#M000058">create_report</a>&nbsp;&nbsp;
+      <a href="#M000061">delete_report</a>&nbsp;&nbsp;
+      <a href="#M000057">get_all_reports</a>&nbsp;&nbsp;
+      <a href="#M000059">get_report</a>&nbsp;&nbsp;
+      <a href="#M000060">get_report_resource</a>&nbsp;&nbsp;
+      <a href="#M000056">get_report_types</a>&nbsp;&nbsp;
+      <a href="#M000064">get_uri</a>&nbsp;&nbsp;
+      <a href="#M000055">new</a>&nbsp;&nbsp;
+      <a href="#M000063">parse_id</a>&nbsp;&nbsp;
+      <a href="#M000062">parse_type</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -125,14 +118,30 @@ provides complete report webservice functionality
 
     <!-- if method_list -->
     <div id="methods">
-      <h3 class="section-bar">Public Instance methods</h3>
+      <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000050" class="method-detail">
-        <a name="M000050"></a>
+      <div id="method-M000055" class="method-detail">
+        <a name="M000055"></a>
 
         <div class="method-heading">
-          <a href="ReportService.src/M000050.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportService.src/M000050.html');return false;">
+          <a href="ReportService.src/M000055.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportService.src/M000055.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(home_uri)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000058" class="method-detail">
+        <a name="M000058"></a>
+
+        <div class="method-heading">
+          <a href="ReportService.src/M000058.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportService.src/M000058.html');return false;">
           <span class="method-name">create_report(type, uri_list) => string<br />
 </span>
           </a>
@@ -146,26 +155,30 @@ list of validation or cross-validation-uris returns the uir of the report
         </div>
       </div>
 
-      <div id="method-M000052" class="method-detail">
-        <a name="M000052"></a>
+      <div id="method-M000061" class="method-detail">
+        <a name="M000061"></a>
 
         <div class="method-heading">
-          <a href="ReportService.src/M000052.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportService.src/M000052.html');return false;">
-          <span class="method-name">delete_report</span><span class="method-args">( type, id )</span>
+          <a href="ReportService.src/M000061.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportService.src/M000061.html');return false;">
+          <span class="method-name">delete_report( type, id )<br />
+</span>
           </a>
         </div>
       
         <div class="method-description">
+          <p>
+delets a report
+</p>
         </div>
       </div>
 
-      <div id="method-M000049" class="method-detail">
-        <a name="M000049"></a>
+      <div id="method-M000057" class="method-detail">
+        <a name="M000057"></a>
 
         <div class="method-heading">
-          <a href="ReportService.src/M000049.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportService.src/M000049.html');return false;">
+          <a href="ReportService.src/M000057.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportService.src/M000057.html');return false;">
           <span class="method-name">get_all_reports(type) => string<br />
 </span>
           </a>
@@ -178,31 +191,49 @@ lists all stored reports of a certain type, returns a list of uris
         </div>
       </div>
 
-      <div id="method-M000051" class="method-detail">
-        <a name="M000051"></a>
+      <div id="method-M000059" class="method-detail">
+        <a name="M000059"></a>
 
         <div class="method-heading">
-          <a href="ReportService.src/M000051.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportService.src/M000051.html');return false;">
-          <span class="method-name">get_report( type, id, format ) => string<br />
+          <a href="ReportService.src/M000059.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportService.src/M000059.html');return false;">
+          <span class="method-name">get_report( type, id, accept_header_value ) => string<br />
 </span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-returns report in a certain format, converts to this format if not yet
-exists, return uri of report on server
+yields report in a certain format, converts to this format if not yet
+exists, returns uri of report on server
 </p>
         </div>
       </div>
 
-      <div id="method-M000048" class="method-detail">
-        <a name="M000048"></a>
+      <div id="method-M000060" class="method-detail">
+        <a name="M000060"></a>
 
         <div class="method-heading">
-          <a href="ReportService.src/M000048.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportService.src/M000048.html');return false;">
+          <a href="ReportService.src/M000060.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportService.src/M000060.html');return false;">
+          <span class="method-name">get_report_resource( type, id, resource ) => string<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+returns a report resource (i.e. image)
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000056" class="method-detail">
+        <a name="M000056"></a>
+
+        <div class="method-heading">
+          <a href="ReportService.src/M000056.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportService.src/M000056.html');return false;">
           <span class="method-name">get_report_types => string<br />
 </span>
           </a>
@@ -215,12 +246,12 @@ lists all available report types, returns list of uris
         </div>
       </div>
 
-      <div id="method-M000054" class="method-detail">
-        <a name="M000054"></a>
+      <div id="method-M000063" class="method-detail">
+        <a name="M000063"></a>
 
         <div class="method-heading">
-          <a href="ReportService.src/M000054.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportService.src/M000054.html');return false;">
+          <a href="ReportService.src/M000063.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportService.src/M000063.html');return false;">
           <span class="method-name">parse_id</span><span class="method-args">( report_uri )</span>
           </a>
         </div>
@@ -229,12 +260,12 @@ lists all available report types, returns list of uris
         </div>
       </div>
 
-      <div id="method-M000053" class="method-detail">
-        <a name="M000053"></a>
+      <div id="method-M000062" class="method-detail">
+        <a name="M000062"></a>
 
         <div class="method-heading">
-          <a href="ReportService.src/M000053.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportService.src/M000053.html');return false;">
+          <a href="ReportService.src/M000062.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportService.src/M000062.html');return false;">
           <span class="method-name">parse_type</span><span class="method-args">( report_uri )</span>
           </a>
         </div>
@@ -245,12 +276,12 @@ lists all available report types, returns list of uris
 
       <h3 class="section-bar">Protected Instance methods</h3>
 
-      <div id="method-M000058" class="method-detail">
-        <a name="M000058"></a>
+      <div id="method-M000065" class="method-detail">
+        <a name="M000065"></a>
 
         <div class="method-heading">
-          <a href="ReportService.src/M000058.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportService.src/M000058.html');return false;">
+          <a href="ReportService.src/M000065.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportService.src/M000065.html');return false;">
           <span class="method-name">check_report_type</span><span class="method-args">(type)</span>
           </a>
         </div>
@@ -259,41 +290,13 @@ lists all available report types, returns list of uris
         </div>
       </div>
 
-      <div id="method-M000055" class="method-detail">
-        <a name="M000055"></a>
+      <div id="method-M000064" class="method-detail">
+        <a name="M000064"></a>
 
         <div class="method-heading">
-          <a href="ReportService.src/M000055.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportService.src/M000055.html');return false;">
-          <span class="method-name">get_base_uri</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000057" class="method-detail">
-        <a name="M000057"></a>
-
-        <div class="method-heading">
-          <a href="ReportService.src/M000057.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportService.src/M000057.html');return false;">
+          <a href="ReportService.src/M000064.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportService.src/M000064.html');return false;">
           <span class="method-name">get_uri</span><span class="method-args">(type, id=nil)</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000056" class="method-detail">
-        <a name="M000056"></a>
-
-        <div class="method-heading">
-          <a href="ReportService.src/M000056.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportService.src/M000056.html');return false;">
-          <span class="method-name">raise_not_found</span><span class="method-args">(type, id)</span>
           </a>
         </div>
       

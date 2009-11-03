@@ -5,23 +5,16 @@
 
 <html>
 <head>
-  <title>to_array (Reports::ValidationSet)</title>
+  <title>get_values (Reports::ValidationSet)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File validation_data.rb, line 189</span>
-  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_array</span>(<span class="ruby-identifier">attributes</span>)
-    <span class="ruby-identifier">array</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
-    <span class="ruby-identifier">array</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">attributes</span>)
-    <span class="ruby-ivar">@validations</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> 
-      <span class="ruby-identifier">array</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">collect</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
-        <span class="ruby-identifier">variance</span> = <span class="ruby-identifier">v</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">a</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;_variance&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-constant">VAL_ATTR_VARIANCE</span>.<span class="ruby-identifier">index</span>(<span class="ruby-identifier">a</span>)
-        <span class="ruby-identifier">variance</span> = <span class="ruby-value str">&quot; +- &quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">variance</span>.<span class="ruby-identifier">to_nice_s</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">variance</span>
-        <span class="ruby-identifier">v</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">a</span>).<span class="ruby-identifier">to_nice_s</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">variance</span>.<span class="ruby-identifier">to_s</span> 
-      <span class="ruby-keyword kw">end</span>)
-    <span class="ruby-keyword kw">end</span>
-    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">array</span>
+  <pre><span class="ruby-comment cmt"># File validation_data.rb, line 145</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_values</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">unique</span>=<span class="ruby-keyword kw">true</span>)
+    <span class="ruby-identifier">a</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-ivar">@validations</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">v</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">attribute</span>).<span class="ruby-identifier">to_s</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">unique</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">index</span>(<span class="ruby-identifier">v</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">attribute</span>).<span class="ruby-identifier">to_s</span>)<span class="ruby-operator">==</span><span class="ruby-keyword kw">nil</span> } 
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">a</span>
   <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

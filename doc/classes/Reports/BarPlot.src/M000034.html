@@ -5,22 +5,18 @@
 
 <html>
 <head>
-  <title>build_plot (Reports::BarPlot)</title>
+  <title>add_data (Reports::BarPlot)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File r_plot_factory.rb, line 120</span>
-  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">build_plot</span>(<span class="ruby-identifier">value_names</span>, <span class="ruby-identifier">y_axis_scale</span>=[<span class="ruby-value">0</span>,<span class="ruby-value">1</span>])
+  <pre><span class="ruby-comment cmt"># File r_plot_factory.rb, line 115</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_data</span>(<span class="ruby-identifier">title</span>, <span class="ruby-identifier">values</span>)
     
-    <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;not enough colors defined&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@titles</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span>  <span class="ruby-constant">R_PLOT_COLORS</span>.<span class="ruby-identifier">size</span>
-    <span class="ruby-ivar">@cols</span> = <span class="ruby-constant">R_PLOT_COLORS</span>[<span class="ruby-value">0</span>, <span class="ruby-ivar">@titles</span>.<span class="ruby-identifier">size</span>]
-    <span class="ruby-constant">R</span>.<span class="ruby-identifier">assign</span> <span class="ruby-value str">&quot;titles&quot;</span>, <span class="ruby-ivar">@titles</span>
-    <span class="ruby-constant">R</span>.<span class="ruby-identifier">assign</span> <span class="ruby-value str">&quot;cols&quot;</span>, <span class="ruby-ivar">@cols</span>
-    <span class="ruby-constant">R</span>.<span class="ruby-identifier">eval</span> <span class="ruby-value str">&quot;m &lt;-rbind(&quot;</span><span class="ruby-operator">+</span><span class="ruby-ivar">@rows</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;,&quot;</span>)<span class="ruby-operator">+</span><span class="ruby-value str">&quot;)&quot;</span>
-    <span class="ruby-constant">R</span>.<span class="ruby-identifier">assign</span> <span class="ruby-value str">&quot;my_names&quot;</span>, <span class="ruby-identifier">value_names</span>
-    <span class="ruby-constant">R</span>.<span class="ruby-identifier">assign</span> <span class="ruby-value str">&quot;my_ylim&quot;</span>, <span class="ruby-identifier">y_axis_scale</span>
-    <span class="ruby-constant">R</span>.<span class="ruby-identifier">eval</span> <span class="ruby-value str">'barplot(m, beside = TRUE, col = cols, names=my_names, legend=titles, ylim = my_ylim)'</span>
+    <span class="ruby-identifier">row</span> = <span class="ruby-value str">&quot;row&quot;</span><span class="ruby-operator">+</span>(<span class="ruby-ivar">@rows</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>).<span class="ruby-identifier">to_s</span> 
+    <span class="ruby-constant">R</span>.<span class="ruby-identifier">assign</span> <span class="ruby-identifier">row</span>, <span class="ruby-identifier">values</span>
+    <span class="ruby-ivar">@rows</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">row</span>)
+    <span class="ruby-ivar">@titles</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">title</span>)
   <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

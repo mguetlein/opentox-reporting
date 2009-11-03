@@ -5,15 +5,16 @@
 
 <html>
 <head>
-  <title>get_base_uri (Reports::ReportService)</title>
+  <title>new (Reports::ReportService)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File report_service.rb, line 99</span>
-  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_base_uri</span>
-    <span class="ruby-comment cmt">#PENDING replace with get uri method</span>
-    <span class="ruby-value str">&quot;file://home/martin/tmp/reports&quot;</span>
-  <span class="ruby-keyword kw">end</span></pre>
+  <pre><span class="ruby-comment cmt"># File report_service.rb, line 10</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">home_uri</span>)
+      <span class="ruby-constant">LOGGER</span>.<span class="ruby-identifier">info</span> <span class="ruby-value str">&quot;init report service&quot;</span>
+      <span class="ruby-ivar">@home_uri</span> = <span class="ruby-identifier">home_uri</span>
+      <span class="ruby-ivar">@persistance</span> = <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">FileReportPersistance</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

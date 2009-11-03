@@ -78,6 +78,75 @@
 
   <div id="contextContent">
 
+    <div id="description">
+      <p>
+class Reports::ApplicationTest &lt; Test::Unit::TestCase
+</p>
+<pre>
+  include Rack::Test::Methods
+
+  def app
+    Sinatra::Application
+  end
+
+  def test_webservice
+
+    ENV['USE_OT_MOCK_LAYER'] = &quot;true&quot;
+    Reports.reset_ot_access
+
+    get '/'
+    assert last_response.ok?
+    assert last_response.body.split(&quot;\n&quot;).size == Reports::ReportFactory::REPORT_TYPES.size
+
+    Reports::ReportFactory::REPORT_TYPES.each do |t|
+      get '/'+t.to_s
+      assert last_response.ok?
+    end
+    get '/osterhase'
+    assert last_response.not_found?
+
+    post '/validation', :uri_list =&gt; &quot;validation_uri_1\nvalidation_uri_2&quot;
+    assert last_response.status == 400
+
+    post '/validation', :uri_list =&gt; &quot;validation_uri_1&quot;
+    assert last_response.ok?
+    report_uri = last_response.body
+    type = $rep.parse_type(report_uri)
+    assert type == &quot;validation&quot;
+    id = $rep.parse_id(report_uri)
+
+    get '/validation/'+id.to_s, {}, {&quot;HTTP_ACCEPT&quot; =&gt; &quot;weihnachtsmann&quot;}
+    assert last_response.status == 400
+    get '/validation/'+id.to_s, {}, {&quot;HTTP_ACCEPT&quot; =&gt; &quot;text/xml&quot;}
+    assert last_response.ok?
+    get '/validation/'+id.to_s, {}, {&quot;HTTP_ACCEPT&quot; =&gt; &quot;text/html&quot;}
+    assert last_response.ok?
+
+    delete '/validation/43984398'
+    assert last_response.not_found?
+    delete '/validation/'+id.to_s
+    assert last_response.ok?
+
+    map = {&quot;crossvalidation&quot;=&gt;&quot;validation_uri_1\nvalidation_uri_2\nvalidation_uri_3\nvalidation_uri_4\nvalidation_uri_5&quot;,
+           &quot;algorithm_comparison&quot;=&gt; (&quot;validation_uri\n&quot;*(Reports::OTMockLayer::NUM_DATASETS * Reports::OTMockLayer::NUM_ALGS * Reports::OTMockLayer::NUM_FOLDS)) }
+    map.each do |t,u|
+      Reports.reset_ot_access
+      post '/'+t.to_s, :uri_list=&gt;u.to_s
+      assert last_response.ok?
+      report_uri = last_response.body
+      type = $rep.parse_type(report_uri)
+      assert type == t
+      id = $rep.parse_id(report_uri)
+      delete '/'+t.to_s+'/'+id.to_s
+      assert last_response.ok?
+    end
+  end
+</pre>
+<p>
+end
+</p>
+
+    </div>
 
 
    </div>
@@ -86,7 +155,7 @@
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000089">test_service</a>&nbsp;&nbsp;
+      <a href="#M000092">test_service_ot_webservice</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -94,10 +163,65 @@
 
 
     <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name">OpenTox::ValidationLib::TestUtil</span>
+      </div>
+    </div>
 
     <div id="section">
 
 
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">WS_VAL</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;localhost:4007&quot;</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">WS_DATA</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;localhost:4002&quot;</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">DATA</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;hamster&quot;</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">FILE</td>
+          <td>=</td>
+          <td class="context-item-value">File.new(&quot;data/hamster_carcinogenicity.csv&quot;,&quot;r&quot;)</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">WS_CLASS_ALG</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;localhost:4003/lazar_classification&quot;</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">WS_FEATURE_ALG</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;localhost:4003/fminer&quot;</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">WS_CLASS_ALG_2</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;localhost:4008/algorithm&quot;</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">WS_FEATURE_ALG_2</td>
+          <td>=</td>
+          <td class="context-item-value">nil</td>
+        </tr>
+        </table>
+      </div>
+    </div>
 
 
 
@@ -108,13 +232,13 @@
     <div id="methods">
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000089" class="method-detail">
-        <a name="M000089"></a>
+      <div id="method-M000092" class="method-detail">
+        <a name="M000092"></a>
 
         <div class="method-heading">
-          <a href="ReportServiceTest.src/M000089.html" target="Code" class="method-signature"
-            onclick="popupCode('ReportServiceTest.src/M000089.html');return false;">
-          <span class="method-name">test_service</span><span class="method-args">()</span>
+          <a href="ReportServiceTest.src/M000092.html" target="Code" class="method-signature"
+            onclick="popupCode('ReportServiceTest.src/M000092.html');return false;">
+          <span class="method-name">test_service_ot_webservice</span><span class="method-args">()</span>
           </a>
         </div>
       
