@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>get_format (Reports::ReportFormat)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File report_format.rb, line 20</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">get_format</span>(<span class="ruby-identifier">accept_header_value</span>)
+
+    <span class="ruby-keyword kw">begin</span>
+      <span class="ruby-identifier">content_type</span> =  <span class="ruby-constant">MIMEParse</span><span class="ruby-operator">::</span><span class="ruby-identifier">best_match</span>(<span class="ruby-constant">CONTENT_TYPES</span>.<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">accept_header_value</span>)
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">RuntimeException</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">content_type</span>
+    <span class="ruby-keyword kw">rescue</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">BadRequest</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;Accept header '&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">accept_header_value</span>.<span class="ruby-identifier">to_s</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;' not supported, supported types are &quot;</span><span class="ruby-operator">+</span><span class="ruby-constant">CONTENT_TYPES</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;, &quot;</span>))
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-constant">CONTENT_TYPES</span>[<span class="ruby-identifier">content_type</span>]
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

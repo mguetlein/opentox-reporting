@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_service_ot_webservice (Reports::ReportServiceTest)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test.rb, line 85</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_service_ot_webservice</span>
+
+    <span class="ruby-keyword kw">begin</span>
+      
+      <span class="ruby-identifier">rep</span> = <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">ReportService</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;http://some.location&quot;</span>)
+      <span class="ruby-identifier">types</span> = <span class="ruby-identifier">rep</span>.<span class="ruby-identifier">get_report_types</span>
+      <span class="ruby-identifier">assert</span> <span class="ruby-identifier">types</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
+      <span class="ruby-identifier">assert</span> <span class="ruby-identifier">types</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">&quot;\n&quot;</span>).<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">ReportFactory</span><span class="ruby-operator">::</span><span class="ruby-constant">REPORT_TYPES</span>.<span class="ruby-identifier">size</span>
+      <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">ReportFactory</span><span class="ruby-operator">::</span><span class="ruby-constant">REPORT_TYPES</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> <span class="ruby-identifier">rep</span>.<span class="ruby-identifier">get_all_reports</span>(<span class="ruby-identifier">t</span>)}
+      <span class="ruby-identifier">assert_raise</span>(<span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">NotFound</span>){<span class="ruby-identifier">rep</span>.<span class="ruby-identifier">get_all_reports</span>(<span class="ruby-value str">&quot;osterhase&quot;</span>)}
+      
+      <span class="ruby-comment cmt">### using ot_mock_layer (reporting component does not rely on ot validation webservice)</span>
+      
+      <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'USE_OT_MOCK_LAYER'</span>] = <span class="ruby-value str">&quot;true&quot;</span>
+      <span class="ruby-constant">Reports</span>.<span class="ruby-identifier">reset_ot_access</span>
+      
+<span class="ruby-comment cmt">#      create_report(rep, &quot;validation_uri_1&quot;, &quot;validation&quot;)</span>
+<span class="ruby-comment cmt">#      assert_raise(Reports::BadRequest){create_report(rep, [&quot;validation_uri_1&quot;,&quot;validation_uri_2&quot;], &quot;validation&quot;)}</span>
+<span class="ruby-comment cmt">#      </span>
+<span class="ruby-comment cmt">#      create_report(rep, &quot;crossvalidation_uri_1&quot;, &quot;crossvalidation&quot;)</span>
+<span class="ruby-comment cmt">#      create_report(rep, [&quot;validation_uri_1&quot;]*Reports::OTMockLayer::NUM_FOLDS, &quot;crossvalidation&quot;)</span>
+<span class="ruby-comment cmt">#      assert_raise(Reports::BadRequest){create_report(rep, [&quot;validation_uri_1&quot;]*(Reports::OTMockLayer::NUM_FOLDS-1), &quot;crossvalidation&quot;)}</span>
+<span class="ruby-comment cmt">#      </span>
+<span class="ruby-comment cmt">#      create_report(rep, [&quot;crossvalidation_uri_1&quot;]* (Reports::OTMockLayer::NUM_DATASETS * Reports::OTMockLayer::NUM_ALGS), &quot;algorithm_comparison&quot;)</span>
+<span class="ruby-comment cmt">#      create_report(rep, [&quot;validation_uri_1&quot;]* (Reports::OTMockLayer::NUM_DATASETS * Reports::OTMockLayer::NUM_ALGS * Reports::OTMockLayer::NUM_FOLDS), &quot;algorithm_comparison&quot;)</span>
+
+      <span class="ruby-comment cmt">### using ot webservices (instead of mock layer)</span>
+
+      <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'USE_OT_MOCK_LAYER'</span>] = <span class="ruby-keyword kw">nil</span>
+      <span class="ruby-constant">Reports</span>.<span class="ruby-identifier">reset_ot_access</span>
+      
+      <span class="ruby-identifier">data_uri</span> = <span class="ruby-identifier">upload_data</span> <span class="ruby-constant">WS_DATA</span>, <span class="ruby-constant">DATA</span>, <span class="ruby-constant">FILE</span>
+      <span class="ruby-identifier">data_uri</span>= <span class="ruby-constant">WS_DATA</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;/hamster&quot;</span>
+      
+      <span class="ruby-comment cmt">#val_uri = create_single_validation(data_uri)</span>
+      <span class="ruby-identifier">val_uri</span> = <span class="ruby-identifier">create_single_validation</span>(<span class="ruby-identifier">data_uri</span>, <span class="ruby-constant">WS_CLASS_ALG_2</span>, <span class="ruby-constant">WS_FEATURE_ALG_2</span>)
+      <span class="ruby-comment cmt">#val_uri = &quot;http://localhost:4007/validation/46&quot;</span>
+      <span class="ruby-comment cmt">#add_resource val_uri</span>
+      <span class="ruby-identifier">create_report</span>(<span class="ruby-identifier">rep</span>, <span class="ruby-identifier">val_uri</span>, <span class="ruby-value str">&quot;validation&quot;</span>)
+        
+<span class="ruby-comment cmt">#        val_uri = create_cross_validation(data_uri)</span>
+<span class="ruby-comment cmt">#        #val_uri = &quot;http://localhost:4007/crossvalidation/3&quot;</span>
+<span class="ruby-comment cmt">#        #add_resource val_uri</span>
+<span class="ruby-comment cmt">#        create_report(rep, val_uri, &quot;crossvalidation&quot;)</span>
+        
+<span class="ruby-comment cmt">#         val_uri = create_cross_validation(data_uri, WS_CLASS_ALG_2, WS_FEATURE_ALG_2)</span>
+<span class="ruby-comment cmt">#         val_uri = [&quot;http://localhost:4007/crossvalidation/6&quot;, &quot;http://localhost:4007/crossvalidation/8&quot;]</span>
+<span class="ruby-comment cmt">#         #add_resource val_uri</span>
+<span class="ruby-comment cmt">#         create_report(rep, val_uri, &quot;algorithm_comparison&quot;)</span>
+      
+    <span class="ruby-keyword kw">ensure</span>
+      <span class="ruby-identifier">delete_resources</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,4 +1,7 @@
 
+ENV['REPORT_DIR'] = File.join(FileUtils.pwd,"reports") unless ENV['REPORT_DIR']
+
+
 # = Reports::ReportPersistance
 #
 # service that stores reports (Reports::ReportConent), and provides access in various formats
@@ -66,10 +69,11 @@ end
 #
 class Reports::FileReportPersistance < Reports::ReportPersistance
   
-  def initialize(report_dir="/tmp/reports")
-    @report_dir = report_dir  
+  def initialize()
+    @report_dir = ENV['REPORT_DIR']  
     FileUtils.mkdir @report_dir.to_s unless File.directory?(@report_dir)
     raise "report cannot be found nor created" unless File.directory?(@report_dir)
+    LOGGER.debug "reports are stored in "+@report_dir.to_s 
   end
   
   def list_reports(type)

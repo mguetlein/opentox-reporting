@@ -1,4 +1,7 @@
 
+# graph-files are generated in the tmp-dir before they are stored
+ENV['TMP_DIR'] = File.join(FileUtils.pwd,"reports","tmp") unless ENV['TMP_DIR']
+
 class Object
   
   # checks weather two objects have the same values for __equal_attributes__
@@ -88,6 +91,8 @@ module Reports::Util
   def self.create_tmp_file(tmp_file_name)
 
     tmp_file_path = nil
+    FileUtils.mkdir ENV['TMP_DIR'] unless File.directory?(ENV['TMP_DIR'])
+    raise "TMP_DIR does not exist and cannot be created" unless File.directory?(ENV['TMP_DIR'])
     while (!tmp_file_path || File.exist?(tmp_file_path) )
       tmp_file_path = ENV['TMP_DIR']+"/#{tmp_file_name}.#{Time.now.strftime("%Y-%-m-%d_%M-%S")}.#{rand(11111).to_s}"
     end

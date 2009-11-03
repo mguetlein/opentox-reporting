@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>create_tmp_file (Reports::Util)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File util.rb, line 91</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">create_tmp_file</span>(<span class="ruby-identifier">tmp_file_name</span>)
+
+    <span class="ruby-identifier">tmp_file_path</span> = <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'TMP_DIR'</span>] <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'TMP_DIR'</span>])
+    <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;TMP_DIR does not exist and cannot be created&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'TMP_DIR'</span>])
+    <span class="ruby-keyword kw">while</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">tmp_file_path</span> <span class="ruby-operator">||</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">tmp_file_path</span>) )
+      <span class="ruby-identifier">tmp_file_path</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'TMP_DIR'</span>]<span class="ruby-operator">+</span><span class="ruby-node">&quot;/#{tmp_file_name}.#{Time.now.strftime(&quot;%Y-%-m-%d_%M-%S&quot;)}.#{rand(11111).to_s}&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">tmp_file_path</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,10 +1,11 @@
 
+
 # = Reports::OTAccess
 # 
 # service that connects to the other ot-services
 #  
 class Reports::OTAccess
-  
+
   # initialize validation object with 
   def init_validation(validation, uri)
     raise "not implemented"
@@ -14,12 +15,74 @@ class Reports::OTAccess
     raise "not implemented"
   end
   
-  def init_predictions(predictions, test_dataset_uri, prediction_dataset_uri)
+  def get_predictions( test_dataset_uri, prediction_dataset_uri)
+    raise "not implemented"
+  end
+  
+  def resolve_cv_uris(uri_list)
     raise "not implemented"
   end
 end
 
-class Reports::WebserviceOTAccess < Reports::OTAccess
+class Reports::OTWebserviceAccess < Reports::OTAccess
+  
+  def resolve_cv_uris(uri_list)
+    res = []
+    uri_list.each do |u|
+      if u.to_s =~ /.*\/crossvalidation\/.*/
+        uri = u.to_s+"/validations"
+        begin
+          vali_uri_list = RestClient.get uri
+        rescue => ex
+          raise Reports::BadRequest.new "cannot get validations for cv at '"+uri.to_s+"', error msg: "+ex.message
+        end
+        res += vali_uri_list.split("\n")
+      else
+        res += [u.to_s]
+      end
+    end
+    res
+  end
+  
+  
+  def init_validation(validation, uri)
+  
+    begin
+      data = YAML.load(RestClient.get uri)
+    rescue => ex
+      raise Reports::BadRequest.new "cannot get validation at '"+uri.to_s+"', error msg: "+ex.message
+    end
+  
+    OpenTox::Validation::VAL_PROPS.each do |p|
+      validation.send("#{p.to_s}=".to_sym, data[p])        
+    end
+    
+    {OpenTox::Validation::VAL_CV_PROP => OpenTox::Validation::VAL_CV_PROPS,
+     OpenTox::Validation::VAL_CLASS_PROP => OpenTox::Validation::VAL_CLASS_PROPS}.each do |subset_name,subset_props|
+      subset = data[subset_name]
+      subset_props.each{ |prop| validation.send("#{prop.to_s}=".to_sym, subset[prop]) } if subset
+    end
+  end
+    
+  def init_cv(validation)
+    
+    raise "cv-id not set" unless validation.crossvalidation_id
+    
+    cv_uri = validation.uri.split("/")[0..-3].join("/")+"/crossvalidation/"+validation.crossvalidation_id.to_s
+    begin
+      data = YAML.load(RestClient.get cv_uri)
+    rescue => ex
+      raise Reports::BadRequest.new "cannot get crossvalidation at '"+cv_uri.to_s+"', error msg: "+ex.message
+    end
+    
+    OpenTox::Validation::CROSS_VAL_PROPS.each do |p|
+      validation.send("#{p.to_s}=".to_sym, data["#{p.to_s}".to_sym])        
+    end
+  end
+
+  def get_predictions( test_dataset_uri, prediction_dataset_uri)
+    OpenTox::ValidationLib::Predictions.new( test_dataset_uri, prediction_dataset_uri)
+  end
 end
 
 # = Reports::OTMockLayer
@@ -51,8 +114,16 @@ class Reports::OTMockLayer < Reports::OTAccess
     @count = 0
   end
   
-  def reset
-    @count = 0
+  def resolve_cv_uris(uri_list)
+    res = []
+    uri_list.each do |u|
+      if u.to_s =~ /.*crossvalidation.*/
+        res += ["validation_x"]*NUM_FOLDS
+      else
+        res += [u.to_s]
+      end
+    end
+    res
   end
   
   def init_validation(validation, uri)
@@ -61,48 +132,49 @@ class Reports::OTMockLayer < Reports::OTAccess
     validation.test_dataset_uri = @datasets[@count]
     validation.prediction_dataset_uri = "bla"
     
-    validation.cv_id = @count/NUM_FOLDS
-    validation.fold = @folds[@count]
+    cv_id = @count/NUM_FOLDS
+    validation.crossvalidation_id = cv_id
+    validation.crossvalidation_fold = @folds[@count]
     
-    validation.class_auc = 0.5 + validation.cv_id*0.02 + rand/3.0
-    validation.class_acc = 0.5 + validation.cv_id*0.02 + rand/3.0
-    validation.class_tp = 1
-    validation.class_fp = 1
-    validation.class_tn = 1
-    validation.class_fn = 1
+    validation.auc = 0.5 + cv_id*0.02 + rand/3.0
+    validation.acc = 0.5 + cv_id*0.02 + rand/3.0
+    validation.tp = 1
+    validation.fp = 1
+    validation.tn = 1
+    validation.fn = 1
     
-    validation.algorithm_name = @algs[@count]
-    validation.training_dataset_name = @datasets[@count]
-    validation.test_dataset_name = @datasets[@count]
+    validation.algorithm_uri = @algs[@count]
+    validation.training_dataset_uri = @datasets[@count]
+    validation.test_dataset_uri = @datasets[@count]
     
     @count += 1
   end
   
   def init_cv(validation)
     
-    raise "cv-id not set" unless validation.cv_id
+    raise "cv-id not set" unless validation.crossvalidation_id
       
-    validation.CV_num_folds = NUM_FOLDS
-    validation.CV_algorithm_uri = @algs[validation.cv_id.to_i * NUM_FOLDS]
-    validation.CV_dataset_uri = @datasets[validation.cv_id.to_i * NUM_FOLDS]
-    validation.CV_stratified = true
-    validation.CV_random_seed = 1
-    validation.CV_dataset_name = @datasets[validation.cv_id.to_i * NUM_FOLDS]
+    validation.num_folds = NUM_FOLDS
+    validation.algorithm_uri = @algs[validation.crossvalidation_id.to_i * NUM_FOLDS]
+    validation.dataset_uri = @datasets[validation.crossvalidation_id.to_i * NUM_FOLDS]
+    validation.stratified = true
+    validation.random_seed = 1
+    #validation.CV_dataset_name = @datasets[validation.crossvalidation_id.to_i * NUM_FOLDS]
   end
   
-  def init_predictions(predictions, test_dataset_uri, prediction_dataset_uri)
+  def get_predictions(test_dataset_uri, prediction_dataset_uri)
   
     p = Array.new
     c = Array.new
+    conf = Array.new
     u = Array.new
     (0..NUM_PREDICTIONS).each do |i|
-      p.push rand
+      p.push rand(2)
       c.push rand(2)
-      u.push((i+1))
+      conf.push rand
+      u.push("compound no"+(i+1).to_s)
     end
-    predictions.predicted_values = p
-    predictions.actual_values = c
-    predictions.compound_uris = u
+    OpenTox::ValidationLib::MockPredictions.new( p, c, conf, u )
   end
 
  end

@@ -1,4 +1,12 @@
 
+# selected attributes of interest when generating the report for a train-/test-evaluation                      
+VAL_ATTR_TRAIN_TEST = [ "model_uri", "training_dataset_uri", "test_dataset_uri" ]
+# selected attributes of interest when generating the crossvalidation report
+VAL_ATTR_CV = [ "algorithm_uri", "dataset_uri", "num_folds", "crossvalidation_fold" ]
+# selected attributes of interest when performing classification
+VAL_ATTR_CLASS = [ "auc", "acc" ]
+
+
 # = Reports::ReportFactory 
 #
 # creates various reports (Reports::ReportContent) 
@@ -41,7 +49,7 @@ module Reports::ReportFactory
     report.add_section_result(validation_set, VAL_ATTR_TRAIN_TEST + VAL_ATTR_CLASS, "Results", "Results")
     report.add_section_roc_plot(validation_set)
     report.add_section_confusion_matrix(validation_set.first)
-    report.add_section_result(validation_set, VAL_ATTR, "All Results", "All Results")
+    report.add_section_result(validation_set, OpenTox::Validation::ALL_PROPS, "All Results", "All Results")
     report.add_section_predictions( validation_set ) 
     return report
   end
@@ -49,20 +57,20 @@ module Reports::ReportFactory
   def self.create_report_crossvalidation(validation_set)
     
     raise Reports::BadRequest.new("num validations is not >1") unless validation_set.size>1
-    raise Reports::BadRequest.new("crossvalidation-id not set in all validations") if validation_set.has_nil_values?(:cv_id)
-    raise Reports::BadRequest.new("num different cross-validation-id's must be equal to 1") unless validation_set.num_different_values(:cv_id)==1
+    raise Reports::BadRequest.new("crossvalidation-id not set in all validations") if validation_set.has_nil_values?(:crossvalidation_id)
+    raise Reports::BadRequest.new("num different cross-validation-id's must be equal to 1") unless validation_set.num_different_values(:crossvalidation_id)==1
     validation_set.load_cv_attributes
-    raise Reports::BadRequest.new("num validations is not equal to num folds") unless validation_set.first.CV_num_folds==validation_set.size
-    raise Reports::BadRequest.new("num different folds is not equal to num validations") unless validation_set.num_different_values(:fold)==validation_set.size
-    merged = validation_set.merge([:cv_id])
+    raise Reports::BadRequest.new("num validations ("+validation_set.size.to_s+") is not equal to num folds ("+validation_set.first.num_folds.to_s+")") unless validation_set.first.num_folds==validation_set.size
+    raise Reports::BadRequest.new("num different folds is not equal to num validations") unless validation_set.num_different_values(:crossvalidation_fold)==validation_set.size
+    merged = validation_set.merge([:crossvalidation_id])
      
     report = Reports::ReportContent.new("Crossvalidation report")
-    report.add_section_result(merged, VAL_ATTR_CV+VAL_ATTR_CLASS-["fold"],"Mean Results","Mean Results")
+    report.add_section_result(merged, VAL_ATTR_CV+VAL_ATTR_CLASS-["crossvalidation_fold"],"Mean Results","Mean Results")
     report.add_section_roc_plot(validation_set)
     report.add_section_confusion_matrix(merged.first)
     report.add_section_result(validation_set, VAL_ATTR_CV+VAL_ATTR_CLASS-["CV_num_folds"], "Results","Results")
-    report.add_section_result(validation_set, VAL_ATTR, "All Results", "All Results")
-    report.add_section_predictions( validation_set, ["fold"] ) 
+    report.add_section_result(validation_set, OpenTox::Validation::ALL_PROPS, "All Results", "All Results")
+    report.add_section_predictions( validation_set, ["crossvalidation_fold"] ) 
     return report
   end
   
@@ -71,27 +79,27 @@ module Reports::ReportFactory
     #validation_set.to_array([:fold, :test_dataset_uri, :model_uri]).each{|a| puts a.inspect}
     raise Reports::BadRequest.new("num validations is not >1") unless validation_set.size>1
 
-    if validation_set.has_nil_values?(:cv_id)
+    if validation_set.has_nil_values?(:crossvalidation_id)
       raise Reports::BadRequest.new("so far, algorithm comparison is only supported for crossvalidation results")
     else
-      raise Reports::BadRequest.new("num different cross-validation-ids <2") if validation_set.num_different_values(:cv_id)<2
+      raise Reports::BadRequest.new("num different cross-validation-ids <2") if validation_set.num_different_values(:crossvalidation_id)<2
       validation_set.load_cv_attributes
-      raise Reports::BadRequest.new("number of different algorithms <2") if validation_set.num_different_values(:CV_algorithm_uri)<2
+      raise Reports::BadRequest.new("number of different algorithms <2") if validation_set.num_different_values(:algorithm_uri)<2
       
-      if validation_set.num_different_values(:CV_dataset_uri)>1
+      if validation_set.num_different_values(:dataset_uri)>1
         raise Reports::BadRequest.new("so far, algorithm comparison is only supported for 1 dataset")
       else
         # this groups all validations in x different groups (arrays) according to there algorithm-uri
-        algorithm_grouping = Reports::Util.group(validation_set.validations, ["CV_algorithm_uri"])
+        algorithm_grouping = Reports::Util.group(validation_set.validations, ["algorithm_uri"])
         # we check if there are corresponding validations in each group that have equal attributes (folds, num-folds,..)
-        Reports::Util.check_group_matching(algorithm_grouping, [:fold, :CV_num_folds, :CV_dataset_uri, :CV_stratified, :CV_random_seed])
-        merged = validation_set.merge([:CV_algorithm_uri]) 
+        Reports::Util.check_group_matching(algorithm_grouping, [:crossvalidation_fold, :num_folds, :dataset_uri, :stratified, :random_seed])
+        merged = validation_set.merge([:algorithm_uri]) 
         
         report = Reports::ReportContent.new("Algorithm comparison report")
-        report.add_section_bar_plot(merged,"algorithm_name",VAL_ATTR_CLASS)   
-        report.add_section_roc_plot(validation_set, "algorithm_name")
-        report.add_section_result(merged,VAL_ATTR_CV+VAL_ATTR_CLASS-["fold"],"Mean Results","Mean Results")
-        report.add_section_result(validation_set,VAL_ATTR_CV+VAL_ATTR_CLASS-["CV_num_folds"],"Results","Results")
+        report.add_section_bar_plot(merged,"algorithm_uri",VAL_ATTR_CLASS)   
+        report.add_section_roc_plot(validation_set, "algorithm_uri")
+        report.add_section_result(merged,VAL_ATTR_CV+VAL_ATTR_CLASS-["crossvalidation_fold"],"Mean Results","Mean Results")
+        report.add_section_result(validation_set,VAL_ATTR_CV+VAL_ATTR_CLASS-["num_folds"],"Results","Results")
         
         return report
       end
@@ -109,7 +117,7 @@ class Reports::ReportContent
   attr_accessor :xml_report, :tmp_files
   
   def initialize(title)
-    @xml_report = Reports::XMLReport.new(title)
+    @xml_report = Reports::XMLReport.new(title, Time.now.strftime("Created at %m.%d.%Y - %H:%M"))
   end
   
   def add_section_predictions( validation_set, 
@@ -135,7 +143,10 @@ class Reports::ReportContent
                                 
     section_table = @xml_report.add_section(xml_report.get_root_element, section_title)
     @xml_report.add_paragraph(section_table, section_text) if section_text
-    @xml_report.add_table(section_table, table_title, validation_set.to_array(validation_attributes))   
+    vals = validation_set.to_array(validation_attributes)
+    #PENDING rexml strings in tables not working when >66  
+    vals = vals.collect{|a| a.collect{|v| v.to_s[0,66] }}
+    @xml_report.add_table(section_table, table_title, vals)   
   end
   
   def add_section_confusion_matrix(  validation, 
@@ -145,7 +156,8 @@ class Reports::ReportContent
                                 
     section_confusion = @xml_report.add_section(xml_report.get_root_element, section_title)
     @xml_report.add_paragraph(section_confusion, section_text) if section_text
-    @xml_report.add_table(section_confusion, table_title, Reports::XMLReportUtil::create_confusion_matrix(validation.class_tp, validation.class_fp, validation.class_tn, validation.class_fn), false)
+    @xml_report.add_table(section_confusion, table_title, Reports::XMLReportUtil::create_confusion_matrix(
+      validation.tp, validation.fp, validation.tn, validation.fn), false)
 
   end
 

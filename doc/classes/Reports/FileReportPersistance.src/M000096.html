@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>get_report (Reports::FileReportPersistance)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File report_persistance.rb, line 114</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_report</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">format</span>)
+    
+    <span class="ruby-identifier">report_dir</span> = <span class="ruby-identifier">report_directory</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">id</span>)
+    <span class="ruby-identifier">raise_report_not_found</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">id</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">report_dir</span>)
+    
+    <span class="ruby-identifier">filename</span> = <span class="ruby-value str">&quot;report.&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">format</span>
+    <span class="ruby-identifier">file_path</span> = <span class="ruby-identifier">report_dir</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;/&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">filename</span>
+
+    <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">file_path</span>)
+      <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">ReportFormat</span>.<span class="ruby-identifier">format_report</span>(<span class="ruby-identifier">report_dir</span>, <span class="ruby-value str">&quot;report.xml&quot;</span>, <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">format</span>)
+      <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;formated file not found '&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">file_path</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;'&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">file_path</span>)
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">file_path</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,4 +1,9 @@
 
+ENV['REPORT_XSL'] = "docbook-xsl-1.75.2/html/docbook.xsl" unless ENV['REPORT_XSL'] 
+ENV['JAVA_HOME'] = "/usr/bin" unless ENV['JAVA_HOME']
+ENV['PATH'] = ENV['JAVA_HOME']+":"+ENV['PATH'] unless ENV['PATH'].split(":").index(ENV['JAVA_HOME'])
+ENV['SAXON_JAR'] = "saxonhe9-2-0-3j/saxon9he.jar" unless ENV['SAXON_JAR']
+
 # = Reports::ReportFormat
 # 
 # provides functions for converting reports from xml to other formats
@@ -46,16 +51,14 @@ module Reports::ReportFormat
   private
   def self.format_report_to_html(directory, xml_filename, html_filename)
     
-    cmd = "saxon-xslt -o " + html_filename.to_s+" "+xml_filename.to_s+" "+ENV['REPORT_XSL']
+    cmd = "java -jar "+ENV['SAXON_JAR']+" -o:" + File.join(directory,html_filename.to_s)+
+      " -s:"+File.join(directory,xml_filename.to_s)+" -xsl:"+ENV['REPORT_XSL']+" -versionmsg:off"
     LOGGER.debug "converting report to html: '"+cmd+"'"
-    #LOGGER.debug "- working directory is '"+directory+"'"
-    Dir.chdir directory.to_s do
-      IO.popen(cmd.to_s) do |f|
-        while line = f.gets do
-          LOGGER.info "saxon-xslt> "+line 
-        end
-      end 
-    end
+    IO.popen(cmd.to_s) do |f|
+      while line = f.gets do
+        LOGGER.info "saxon-xslt> "+line 
+      end
+    end 
   end
   
 end

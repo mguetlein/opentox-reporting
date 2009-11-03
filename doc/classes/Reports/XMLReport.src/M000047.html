@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>write_to (Reports::XMLReport)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File xml_report.rb, line 157</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">write_to</span>( <span class="ruby-identifier">out</span> = <span class="ruby-identifier">$stdout</span>, <span class="ruby-identifier">resource_path</span>=<span class="ruby-keyword kw">nil</span> )
+    
+    <span class="ruby-comment cmt">#alternativly use base href in html-header</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">resource_path</span>)
+      <span class="ruby-ivar">@resource_path_elements</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;attribute '&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">v</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;' not found in element '&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">k</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;'&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">k</span>.<span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">v</span>)
+        <span class="ruby-identifier">k</span>.<span class="ruby-identifier">add_attribute</span>( <span class="ruby-identifier">v</span>, <span class="ruby-identifier">resource_path</span>.<span class="ruby-identifier">to_s</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;/&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">k</span>.<span class="ruby-identifier">attributes</span>[<span class="ruby-identifier">v</span>].<span class="ruby-identifier">to_s</span> )
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+    
+    <span class="ruby-ivar">@doc</span>.<span class="ruby-identifier">write</span>(<span class="ruby-identifier">out</span>,<span class="ruby-value">2</span>)
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

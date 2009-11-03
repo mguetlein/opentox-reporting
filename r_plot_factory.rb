@@ -1,4 +1,7 @@
 
+# colors for r-plots
+R_PLOT_COLORS = ["red", "blue", "green", "yellow"]
+
 # = Reports::RPlotFactory 
 #
 # creates plots from validation-sets using rinruby
@@ -22,7 +25,7 @@ module Reports::RPlotFactory
   # * if (split_set_attributes == nil?)
   #   * the predictions of all validations in the validation set are plotted as one average roc-curve
   #   * if (show_single_curves == true) -> the single predictions of each validation are plotted as well   
-  # * if (split_set_attributes == nil?)
+  # * if (split_set_attributes != nil?)
   #   * the validation set is splitted into sets of validation_sets with equal attribute values
   #   * each of theses validation sets is plotted as a roc-curve  
   #
@@ -76,11 +79,11 @@ module Reports::RPlotFactory
     actual_array = Array.new
     if (validation_set.size > 1)
       (0..validation_set.size-1).each do |i|
-        predict_array.push(validation_set.get(i).get_predictions.predicted_values)
+        predict_array.push(validation_set.get(i).get_predictions.confidence_values)
         actual_array.push(validation_set.get(i).get_predictions.actual_values)
       end
     else
-      predict_array = validation_set.first.get_predictions.predicted_values
+      predict_array = validation_set.first.get_predictions.confidence_values
       actual_array = validation_set.first.get_predictions.actual_values
     end
     return [ predict_array, actual_array ]
@@ -168,9 +171,10 @@ class Reports::RocPlot < Reports::RPlot
     R.eval "pred <- prediction(prediction_values,actual_values)"
     R.eval 'perf <- performance(pred,"tpr","fpr")'
     
-    add_plot = @titles.size > 0 ? "add=TRUE" : "add=FALSE" 
+    add_plot = @titles.size > 0 ? "add=TRUE" : "add=FALSE"
     avg = predict_array[0].is_a?(Array) ? 'avg="threshold",' : '' 
     raise "not enough colors defined" if @titles.size >=  R_PLOT_COLORS.size
+    
     R.eval 'plot(perf, '+avg+' col="'+R_PLOT_COLORS[@titles.size]+'", '+add_plot+')'
     R.eval 'plot(perf, ,col="grey82", add=TRUE)' if show_single_curves
     @titles.push(title)

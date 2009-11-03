@@ -1,4 +1,8 @@
 
+ENV['REPORT_DTD'] = "docbook-xml-4.5/docbookx.dtd" unless ENV['REPORT_DTD']
+#transfer to absolute path
+ENV['REPORT_DTD'] = File.expand_path(ENV['REPORT_DTD']) if File.exist?(ENV['REPORT_DTD'])
+
 # = XMLReport
 # 
 # uses REXML to generate an XML document in DocBook article format
@@ -8,12 +12,12 @@
 class Reports::XMLReport
   
   # create new xmlreport
-  def initialize(title, author_firstname = nil, author_surname = nil)
+  def initialize(title, pubdate=nil, author_firstname = nil, author_surname = nil)
     
     @doc = Document.new
     decl = XMLDecl.new
     @doc << decl
-    type = DocType.new('article PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN" "'+ENV['REPORT_DTD']+'"')
+    type = DocType.new('article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "'+ENV['REPORT_DTD']+'"')
     @doc << type
 
     @root = Element.new("article")
@@ -25,6 +29,7 @@ class Reports::XMLReport
     author << Reports::XMLReportUtil.text_element("firstname", author_firstname)
     author << Reports::XMLReportUtil.text_element("surname", author_surname)
     article_info << author
+    article_info << Reports::XMLReportUtil.text_element("pubdate", pubdate)
     @root << article_info
     
     @resource_path_elements = {}
@@ -167,7 +172,7 @@ class Reports::XMLReport
   #
   def self.generate_demo_xml_report
 
-    rep = Reports::XMLReport.new("Demo report", "Fistname", "Surname")
+    rep = Reports::XMLReport.new("Demo report", "subtitle" "Fistname", "Surname")
     section1 = rep.add_section(rep.get_root_element, "First Section")
     rep.add_paragraph(section1, "some text")
     rep.add_paragraph(section1, "even more text")

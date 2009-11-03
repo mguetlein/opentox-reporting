@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>get_report (Reports::ReportService)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File report_service.rb, line 75</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_report</span>( <span class="ruby-identifier">type</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">accept_header_value</span>=<span class="ruby-value str">&quot;text/xml&quot;</span> )
+      
+      <span class="ruby-constant">LOGGER</span>.<span class="ruby-identifier">info</span> <span class="ruby-value str">&quot;get report '&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">id</span>.<span class="ruby-identifier">to_s</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;' of type '&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">type</span>.<span class="ruby-identifier">to_s</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;' (accept-header-value: '&quot;</span><span class="ruby-operator">+</span><span class="ruby-identifier">accept_header_value</span>.<span class="ruby-identifier">to_s</span><span class="ruby-operator">+</span><span class="ruby-value str">&quot;')&quot;</span>
+      
+      <span class="ruby-identifier">format</span> = <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">ReportFormat</span>.<span class="ruby-identifier">get_format</span>(<span class="ruby-identifier">accept_header_value</span>)
+      <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@persistance</span>.<span class="ruby-identifier">get_report</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">format</span>)
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

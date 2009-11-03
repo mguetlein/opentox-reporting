@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>add_section_roc_plot (Reports::ReportContent)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File report_factory.rb, line 164</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_section_roc_plot</span>( <span class="ruby-identifier">validation_set</span>,
+                            <span class="ruby-identifier">split_set_attribute</span> = <span class="ruby-keyword kw">nil</span>,
+                            <span class="ruby-identifier">plot_file_name</span>=<span class="ruby-value str">&quot;roc-plot.svg&quot;</span>, 
+                            <span class="ruby-identifier">section_title</span>=<span class="ruby-value str">&quot;Roc Plot&quot;</span>,
+                            <span class="ruby-identifier">section_text</span>=<span class="ruby-value str">&quot;This section contains the roc plot.&quot;</span>,
+                            <span class="ruby-identifier">image_title</span>=<span class="ruby-value str">&quot;Roc Plot&quot;</span>,
+                            <span class="ruby-identifier">image_caption</span>=<span class="ruby-keyword kw">nil</span>)
+    
+    <span class="ruby-identifier">section_roc</span> = <span class="ruby-ivar">@xml_report</span>.<span class="ruby-identifier">add_section</span>(<span class="ruby-ivar">@xml_report</span>.<span class="ruby-identifier">get_root_element</span>, <span class="ruby-identifier">section_title</span>)
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">validation_set</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">get_predictions</span>
+      <span class="ruby-ivar">@xml_report</span>.<span class="ruby-identifier">add_paragraph</span>(<span class="ruby-identifier">section_roc</span>, <span class="ruby-identifier">section_text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">section_text</span>
+
+      <span class="ruby-identifier">plot_file_path</span> = <span class="ruby-identifier">add_tmp_file</span>(<span class="ruby-identifier">plot_file_name</span>)
+      <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">RPlotFactory</span>.<span class="ruby-identifier">create_roc_plot</span>( <span class="ruby-identifier">plot_file_path</span>, <span class="ruby-identifier">validation_set</span>, <span class="ruby-identifier">split_set_attribute</span>, <span class="ruby-identifier">validation_set</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">&gt;</span><span class="ruby-value">1</span> )
+      <span class="ruby-ivar">@xml_report</span>.<span class="ruby-identifier">add_imagefigure</span>(<span class="ruby-identifier">section_roc</span>, <span class="ruby-identifier">image_title</span>, <span class="ruby-identifier">plot_file_name</span>, <span class="ruby-value str">&quot;SVG&quot;</span>, <span class="ruby-identifier">image_caption</span>)
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-ivar">@xml_report</span>.<span class="ruby-identifier">add_paragraph</span>(<span class="ruby-identifier">section_roc</span>, <span class="ruby-value str">&quot;No prediction info for roc plot available.&quot;</span>)
+    <span class="ruby-keyword kw">end</span>
+    
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

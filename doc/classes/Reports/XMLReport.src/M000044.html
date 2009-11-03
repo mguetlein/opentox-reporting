@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>add_imagefigure (Reports::XMLReport)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File xml_report.rb, line 77</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_imagefigure</span>( <span class="ruby-identifier">element</span>, <span class="ruby-identifier">title</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">filetype</span>, <span class="ruby-identifier">caption</span> = <span class="ruby-keyword kw">nil</span> )
+    
+    <span class="ruby-identifier">figure</span> = <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">XMLReportUtil</span>.<span class="ruby-identifier">attribute_element</span>(<span class="ruby-value str">&quot;figure&quot;</span>, {<span class="ruby-value str">&quot;float&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>})
+    <span class="ruby-identifier">figure</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">XMLReportUtil</span>.<span class="ruby-identifier">text_element</span>(<span class="ruby-value str">&quot;title&quot;</span>, <span class="ruby-identifier">title</span>)
+    <span class="ruby-identifier">media</span> = <span class="ruby-constant">Element</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;mediaobject&quot;</span>)
+    <span class="ruby-identifier">image</span> = <span class="ruby-constant">Element</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;imageobject&quot;</span>)
+    <span class="ruby-identifier">imagedata</span> = <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">XMLReportUtil</span>.<span class="ruby-identifier">attribute_element</span>(<span class="ruby-value str">&quot;imagedata&quot;</span>,{<span class="ruby-value str">&quot;contentwidth&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;75%&quot;</span>, <span class="ruby-value str">&quot;fileref&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">path</span>, <span class="ruby-value str">&quot;format&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">filetype</span>})
+    <span class="ruby-ivar">@resource_path_elements</span>[<span class="ruby-identifier">imagedata</span>] = <span class="ruby-value str">&quot;fileref&quot;</span>
+    <span class="ruby-comment cmt">#imagedata = XMLReportUtil.attribute_element(&quot;imagedata&quot;,{&quot;width&quot; =&gt; &quot;6in&quot;, &quot;fileref&quot; =&gt; path, &quot;format&quot;=&gt;filetype})</span>
+    <span class="ruby-identifier">image</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">imagedata</span>
+    <span class="ruby-identifier">media</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">image</span>
+    <span class="ruby-identifier">media</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Reports</span><span class="ruby-operator">::</span><span class="ruby-constant">XMLReportUtil</span>.<span class="ruby-identifier">text_element</span>(<span class="ruby-value str">&quot;caption&quot;</span>, <span class="ruby-identifier">caption</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">caption</span>
+    <span class="ruby-identifier">figure</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">media</span>
+    <span class="ruby-identifier">element</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">figure</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">figure</span>    
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

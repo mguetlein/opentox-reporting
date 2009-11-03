@@ -1,4 +1,6 @@
 
+# the variance is computed when merging results for these attributes 
+VAL_ATTR_VARIANCE = [ "auc", "acc" ]
 
 # = Reports::Validation
 #
@@ -6,13 +8,14 @@
 #
 class Reports::Validation
   
-  VAL_ATTR.each{ |a| attr_accessor a }
+  #VAL_ATTR.each{ |a| attr_accessor a }
+  OpenTox::Validation::ALL_PROPS.each{ |a| attr_accessor a } 
   VAL_ATTR_VARIANCE.each{ |a| attr_accessor a+"_variance" }
 
   attr_reader :predictions, :merge_count
   
   def initialize(uri = nil)
-    OT_ACCESS.init_validation(self, uri) if uri
+    Reports.ot_access.init_validation(self, uri) if uri
     @merge_count = 1
   end
 
@@ -24,13 +27,13 @@ class Reports::Validation
   def get_predictions
     return @predictions if @predictions
     return nil unless @prediction_dataset_uri
-    @predictions = Reports::Predictions.new( @test_dataset_uri, @prediction_dataset_uri )
+    @predictions = Reports.ot_access.get_predictions( @test_dataset_uri, @prediction_dataset_uri )
   end
   
   # loads all crossvalidation attributes, of the corresponding cv into this object 
   def load_cv_attributes
-    raise "crossvalidation-id not set" unless @cv_id
-    OT_ACCESS.init_cv(self)
+    raise "crossvalidation-id not set" unless @crossvalidation_id
+    Reports.ot_access.init_cv(self)
   end
   
   # merges this validation and another validation object to a new validation object
@@ -47,7 +50,7 @@ class Reports::Validation
     new_validation = Reports::Validation.new
     raise "not working" if validation.merge_count > 1
     
-    VAL_ATTR.each do |a|
+    OpenTox::Validation::ALL_PROPS.each do |a|
       next if a =~ /_variance$/ 
 
       if (equal_attributes.index(a) != nil)
