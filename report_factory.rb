@@ -4,7 +4,7 @@ VAL_ATTR_TRAIN_TEST = [ "model_uri", "training_dataset_uri", "test_dataset_uri" 
 # selected attributes of interest when generating the crossvalidation report
 VAL_ATTR_CV = [ "algorithm_uri", "dataset_uri", "num_folds", "crossvalidation_fold" ]
 # selected attributes of interest when performing classification
-VAL_ATTR_CLASS = [ "auc", "acc" ]
+VAL_ATTR_CLASS = [ "auc", "acc", "sens", "spec" ]
 
 
 # = Reports::ReportFactory 
@@ -146,7 +146,9 @@ class Reports::ReportContent
     vals = validation_set.to_array(validation_attributes)
     #PENDING rexml strings in tables not working when >66  
     vals = vals.collect{|a| a.collect{|v| v.to_s[0,66] }}
-    @xml_report.add_table(section_table, table_title, vals)   
+    #transpose values if there more than 8 columns
+    transpose = vals[0].size>8 
+    @xml_report.add_table(section_table, table_title, vals, !transpose, transpose)   
   end
   
   def add_section_confusion_matrix(  validation, 

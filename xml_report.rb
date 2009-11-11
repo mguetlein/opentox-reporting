@@ -96,23 +96,25 @@ class Reports::XMLReport
   # call-seq:
   #   add_table( element, title, table_values, first_row_is_table_header=true ) => REXML::Element
   #
-  def add_table( element, title, table_values, first_row_is_table_header=true )
+  def add_table( element, title, table_values, first_row_is_table_header=true, transpose=false )
     
     raise "table_values is not mulit-dimensional-array" unless table_values && table_values.is_a?(Array) && table_values[0].is_a?(Array) 
+    
+    values = transpose ? table_values.transpose : table_values
     
     table = Reports::XMLReportUtil.attribute_element("table",{"frame" => "top", "colsep" => 0, "rowsep" => 0})
     
     table << Reports::XMLReportUtil.text_element("title", title)
     
-    raise "column count 0" if table_values.at(0).size < 1 
+    raise "column count 0" if values.at(0).size < 1 
     
-    tgroup = Reports::XMLReportUtil.attribute_element("tgroup",{"cols" => table_values.at(0).size})
+    tgroup = Reports::XMLReportUtil.attribute_element("tgroup",{"cols" => values.at(0).size})
     
-    table_body_values = table_values
+    table_body_values = values
     
     if first_row_is_table_header
-      table_head_values = table_values[0];
-      table_body_values = table_values[1..-1];
+      table_head_values = values[0];
+      table_body_values = values[1..-1];
       
       thead = Element.new("thead")
       row = Element.new("row")

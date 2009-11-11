@@ -94,7 +94,7 @@ module Reports::Util
     FileUtils.mkdir ENV['TMP_DIR'] unless File.directory?(ENV['TMP_DIR'])
     raise "TMP_DIR does not exist and cannot be created" unless File.directory?(ENV['TMP_DIR'])
     while (!tmp_file_path || File.exist?(tmp_file_path) )
-      tmp_file_path = ENV['TMP_DIR']+"/#{tmp_file_name}.#{Time.now.strftime("%Y-%-m-%d_%M-%S")}.#{rand(11111).to_s}"
+      tmp_file_path = ENV['TMP_DIR']+"/#{tmp_file_name}.#{Time.now.strftime("%Y-%-m-%d_%H-%M-%S")}.#{rand(11111).to_s}"
     end
     return tmp_file_path
   end
